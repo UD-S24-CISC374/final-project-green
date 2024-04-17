@@ -14,7 +14,7 @@ export default class MazeMap extends Phaser.Scene {
     }
 
     create() {
-        this.add
+        const mapRect = this.add
             .rectangle(
                 this.cameras.main.width - 380,
                 this.cameras.main.height - 100,
@@ -25,6 +25,50 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setOrigin(0, 1)
             .setDepth(1005);
+
+        const outline = this.add.graphics();
+        outline.setDepth(1007);
+
+        outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline.strokeRect(
+            mapRect.x + mapRect.width * 0.2,
+            mapRect.y - mapRect.height * 0.3,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        this.add
+            .rectangle(
+                mapRect.x + mapRect.width * 0.25,
+                mapRect.y - mapRect.height * 0.25,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0xffffff,
+                0.7
+            )
+            .setDepth(1006);
+
+        const outline1 = this.add.graphics();
+        outline1.setDepth(1007);
+
+        outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline1.strokeRect(
+            mapRect.x + mapRect.width * 0.3,
+            mapRect.y - mapRect.height * 0.45,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        this.add
+            .rectangle(
+                mapRect.x + mapRect.width * 0.35,
+                mapRect.y - mapRect.height * 0.4,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0xffffff,
+                0.7
+            )
+            .setDepth(1006);
 
         // this.add
         //     .image(
