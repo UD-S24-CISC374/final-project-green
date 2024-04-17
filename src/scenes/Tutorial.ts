@@ -91,6 +91,9 @@ export default class Tutorial extends Phaser.Scene {
             "Thank goodness you came Theseus!",
             "The minotaur at the center of the maze has been plaguing my people for years.",
             "If you were able to make it to the center of the maze and defeat the minotaur, you would be the hero of Crete!",
+            "Here is some string to help you find your way out of the maze.",
+            "I have also layed out some tips for you, please read them!",
+            "Once you feel ready, enter the maze up ahead.",
         ];
 
         //this.scene.run("maze-map");
