@@ -15,12 +15,12 @@ export default class WeaponDesign extends Phaser.Scene {
     private previous: string;
     private itemList: string[];
     private dropZones: Phaser.GameObjects.Zone[];
-    private inputField: HTMLInputElement | null;
+    private inputFields: { [key: string]: HTMLInputElement };
 
     constructor() {
         super({ key: "weapon-design" });
         this.dropZones = [];
-        this.inputField = null;
+        this.inputFields = {};
     }
 
     init(data: { from: string; itemList: string[] }) {
@@ -29,7 +29,7 @@ export default class WeaponDesign extends Phaser.Scene {
     }
 
     create() {
-        this.input.setDefaultCursor("pointer");
+        this.input.setDefaultCursor("default");
 
         this.theseusFile = this.add.group();
         this.mainFile = this.add.group();
@@ -114,6 +114,16 @@ export default class WeaponDesign extends Phaser.Scene {
 
             itemImage.setInteractive();
             this.input.setDraggable(itemImage);
+
+            itemImage.on("pointerover", () => {
+                itemImage.setScale(1.6);
+                this.input.setDefaultCursor("pointer");
+            });
+
+            itemImage.on("pointerout", () => {
+                itemImage.setScale(1.5);
+                this.input.setDefaultCursor("default");
+            });
 
             this.input.on(
                 "drag",
@@ -271,6 +281,14 @@ export default class WeaponDesign extends Phaser.Scene {
                             dropZone.input?.hitArea.width,
                             dropZone.input?.hitArea.height
                         );
+                        // if (!this.inputFields) {
+                        //     return;
+                        // }
+                        const dropZoneIdx = this.dropZones.indexOf(zone);
+                        const currentInput = this.inputFields[dropZoneIdx];
+                        currentInput.style.display = "none";
+                        currentInput.disabled = true;
+                        currentInput.remove();
                     }
                 }
             );
@@ -287,17 +305,28 @@ export default class WeaponDesign extends Phaser.Scene {
                         gameObject.y = dropZone.y;
 
                         if (this.dropZones.includes(dropZone)) {
-                            this.inputField = document.createElement("input");
-                            this.inputField.type = "text";
-                            this.inputField.style.position = "absolute";
-                            this.inputField.style.left = `${gameObject.x}px`;
-                            this.inputField.style.top = `${gameObject.y}px`;
-                            this.inputField.style.width = `${2 * boxWidth}px`;
-                            this.inputField.style.height = `${2 * boxHeight}px`;
-                            this.inputField.style.zIndex = "2000";
-                            document.body.appendChild(this.inputField);
+                            const inputField = document.createElement("input");
+                            inputField.type = "text";
+                            inputField.style.border = "none";
+                            inputField.style.outline = "none";
+                            inputField.style.width = `${boxWidth - 44}px`;
+                            inputField.style.height = `${boxHeight - 5}px`;
+                            document.body.appendChild(inputField);
 
-                            this.inputField.focus();
+                            inputField.focus();
+
+                            this.add.dom(
+                                dropZone.x + 18,
+                                dropZone.y,
+                                inputField
+                            );
+
+                            this.inputFields[this.dropZones.indexOf(zone)] =
+                                inputField;
+                        } else {
+                            this.handleTextInput(
+                                this.inputFields[this.dropZones.indexOf(zone)]
+                            );
                         }
                     }
                 }
@@ -329,11 +358,11 @@ export default class WeaponDesign extends Phaser.Scene {
             this.scene.stop();
             this.scene.resume(this.previous, { itemList: this.itemList });
         });
-        this.input.keyboard?.on("keydown-E", () => {
-            this.input.setDefaultCursor("crosshair");
-            this.scene.stop();
-            this.scene.resume(this.previous, { itemList: this.itemList });
-        });
+        // this.input.keyboard?.on("keydown-E", () => {
+        //     this.input.setDefaultCursor("crosshair");
+        //     this.scene.stop();
+        //     this.scene.resume(this.previous, { itemList: this.itemList });
+        // });
     }
 
     private handleFileChange() {
@@ -342,5 +371,11 @@ export default class WeaponDesign extends Phaser.Scene {
         this.swordFile.setVisible(this.current === "Sword");
         this.bowFile.setVisible(this.current === "Bow");
         this.upgradeList.setVisible(this.current === "Main");
+    }
+
+    private handleTextInput(textbox: HTMLInputElement) {
+        textbox.remove();
+        textbox.style.display = "none";
+        textbox.disabled = true;
     }
 }
