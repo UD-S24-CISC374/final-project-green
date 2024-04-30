@@ -292,12 +292,14 @@ export default class Tutorial extends Phaser.Scene {
         //this.scene.start("maze-map")
 
         if (this.cursors?.space.isDown && tile.index != -1) {
-            this.scene.start("mainScene", {
-                hp: this.theseus.health,
-                threads: 5,
-                weaponType: this.theseus.weaponType,
-                itemList: [],
-            });
+            this.scene.pause();
+            this.scene.run("maze-map", { currentScene: "tutorial" });
+            // this.scene.start("mainScene", {
+            //     hp: this.theseus.health,
+            //     threads: 5,
+            //     weaponType: this.theseus.weaponType,
+            //     itemList: [],
+            // });
         }
     }
 

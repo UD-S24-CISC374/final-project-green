@@ -8,6 +8,9 @@ import "../player/theseus";
 import Theseus from "../player/theseus";
 import { sceneEvents } from "../events/eventsCenter";
 
+//blue star increases speed of the weapons
+//orange star increases the damage of the weapon
+
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Tilemaps.Tile;
@@ -224,12 +227,12 @@ export default class MainScene extends Phaser.Scene {
         );
         if (this.cursors?.space.isDown && tile.index != -1) {
             if (this.threads > 1) {
-                this.scene.start("mainScene", {
-                    hp: this.theseus.health,
-                    threads: this.threads - 1,
-                    weaponType: this.theseus.weaponType,
-                    itemList: this.itemList,
-                });
+                // this.scene.start("mainScene", {
+                //     hp: this.theseus.health,
+                //     threads: this.threads - 1,
+                //     weaponType: this.theseus.weaponType,
+                //     itemList: this.itemList,
+                //});
             } else {
                 this.scene.start("minotaur", {
                     hp: this.theseus.health,
