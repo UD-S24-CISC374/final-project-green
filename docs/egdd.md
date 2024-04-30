@@ -17,7 +17,7 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 
 - Fight with enemies by moving Theseus using keyboard and mouse.
 - Whenever you defeat all the enemies in the room, you can move to the other rooms.
-- Collect the codes by defeating enemies or purchasing from the merchant, and join them to make better items.
+- Collect the items by defeating enemies or purchasing from the merchant, and join them to make better items.
 - In limited amount of string, you should explore the maze and reach the center of the maze.
 - When you loss all your health, it displays a game over message.
 - After you defeat the boss, Minotaur, it displays a victory message showing that Theseus became a hero.
@@ -27,7 +27,7 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 ## Learning Domains
 
 - Introductory Java Programming
-  - Classes
+  - Using getters and setters of class
 
 ## Target Audiences
 
@@ -44,19 +44,19 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 
 - By the end of the lesson, players will be able to identify the syntax of defining classes in Java.
 - By the end of the lesson, players will be able to write an appropriate constructor for the class.
-- By the end of the lesson, players will be able to explain appropriate uses of the method.
+- By the end of the lesson, players will be able to explain appropriate uses of the getters and setters.
 
 ## Prerequisite Knowledge
 
 Give assessments before and after gameplay.
 
 - Prior to the game, players need to be able to define the concept of a class. 
-- Prior to the game, players need to be able to explain the concept of a method. 
+- Prior to the game, players need to be able to explain the concept of a getters and setters. 
 
 ## Assessment Measures
 
 - Using given name of class and information of the fields, define a class.
-- Given instruction explaining how the method works, implement the method.
+- Given instruction explaining which to be set to new value, use getters and setters to change the value in other class.
 
 # What sets this project apart?
 
@@ -107,7 +107,7 @@ Give assessments before and after gameplay.
 - There are different weapons Theseus can use.
 - A health bar for Thesueus, the Minotuar, and other enemies.
 - There is a map to represent where Theseus can go in the maze.
-- There is a box that shows what weapons and items Thesueus has.
+- There is a box that shows what weapons Thesueus is using.
 - There is some indication of how much string Theseus has. 
 
 ## Core Gameplay Mechanics (Detailed)
@@ -115,7 +115,7 @@ Give assessments before and after gameplay.
 - Defeating enemies: The player must battle enemies and defeat them using methods and classes. Once an enemies health bar reaches zero they are defeated. The player can gain tokens to get string and weapons
 by defeating enemies.
 - Exploring the Maze: The player must move from the outer ring of rooms to the center, until they reach the Minotaur. The player moves is able to move between rooms only once they have cleared the room they are in by defeating all the enemies. Enetering a new room reduces the amount of string the player has.
-- Gaining Codes: Player is able to collect code by exploring rooms.
+- Gaining items: Player is able to collect code by exploring rooms.
 - Gaining coins: Player is able to gain coins by defeating enemies and they can use this purchase weapons and string. 
 - Losing all your health: Once Theseus loses all his health, the game is over and a "Game Over" message is displayed.
 - Defeating the Minotuar: Theseus must battle the Minotaur similar to other enemies and once the Minotaur has no more health, the player wins the game. A "You are the hero!" message is displayed. 
