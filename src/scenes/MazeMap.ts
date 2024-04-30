@@ -70,15 +70,6 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
-        // this.add
-        //     .image(
-        //         this.cameras.main.width - 380,
-        //         this.cameras.main.height - 100,
-        //         "BlackFrame"
-        //     )
-        //     .setDepth(1000)
-        //     .setScale(5);
-
         // Close button that will return to the game screen
         const close = this.add
             .text(this.cameras.main.width - 125, 95, "X", {
