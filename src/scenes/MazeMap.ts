@@ -20,6 +20,7 @@ export default class MazeMap extends Phaser.Scene {
             this.scene.start(sceneKey, {
                 threads: 5 - this.usedThreads,
                 currentScene: "maze-map",
+                previous: this.scene.key,
             });
         };
 
@@ -215,7 +216,7 @@ export default class MazeMap extends Phaser.Scene {
         });
         close.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume(this.previous);
+            this.scene.start(this.previous);
         });
 
         this.input.keyboard?.on("keydown-M", () => {

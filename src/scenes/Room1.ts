@@ -229,6 +229,7 @@ export default class Room1 extends Phaser.Scene {
                     threads: this.threads - 1,
                     weaponType: this.theseus.weaponType,
                     itemList: this.itemList,
+                    currentScene: this.scene.key,
                 });
             } else {
                 this.scene.start("minotaur", {
