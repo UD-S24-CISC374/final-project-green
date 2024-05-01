@@ -14,6 +14,15 @@ export default class MazeMap extends Phaser.Scene {
     }
 
     create() {
+        //Code to make each square tie to a room.
+        const changeRooms = (sceneKey: string) => {
+            this.scene.stop();
+            this.scene.start(sceneKey, {
+                threads: 5 - this.usedThreads,
+                currentScene: "maze-map",
+            });
+        };
+
         //The rectangle for the overall map.
         const mapRect = this.add
             .rectangle(
@@ -52,9 +61,6 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
-        //Event to change rooms
-        //Room1.on("pointerdown", () => goToScene("room1"));
-
         const outline1 = this.add.graphics();
         outline1.setDepth(1007);
 
@@ -68,7 +74,7 @@ export default class MazeMap extends Phaser.Scene {
         );
 
         const Room2 = this.add
-            //Red rectangle - Room2
+            //Red rectangle - MainScene
             .rectangle(
                 mapRect.x + mapRect.width * 0.2,
                 mapRect.y - mapRect.height * 0.4,
@@ -79,6 +85,13 @@ export default class MazeMap extends Phaser.Scene {
                 0.7
             )
             .setDepth(1006);
+
+        //Event to change rooms
+        Room1.on("pointerdown", () => {
+            if (.data.currentScene === "mainScene") {
+                changeRooms("room1");
+            }
+        });
 
         //Pink rectangle - outline
         outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
@@ -124,27 +137,27 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
-        //Orange rectangle - outline
-        outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
-        outline.strokeRect(
-            mapRect.x + mapRect.width * 0.45,
-            mapRect.y - mapRect.height * 0.2,
-            mapRect.width * 0.1,
-            mapRect.height * 0.1
-        );
+        // //Orange rectangle - outline
+        // outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        // outline.strokeRect(
+        //     mapRect.x + mapRect.width * 0.45,
+        //     mapRect.y - mapRect.height * 0.2,
+        //     mapRect.width * 0.1,
+        //     mapRect.height * 0.1
+        // );
 
-        const mainRoom = this.add
-            //Orange rectangle - MainScene
-            .rectangle(
-                mapRect.x + mapRect.width * 0.5,
-                mapRect.y - mapRect.height * 0.15,
-                mapRect.width * 0.1,
-                mapRect.height * 0.1,
-                0xffa500,
-                //0xffffff, - the white hex code
-                0.7
-            )
-            .setDepth(1006);
+        // const mainRoom = this.add
+        //     //Orange rectangle - MainScene
+        //     .rectangle(
+        //         mapRect.x + mapRect.width * 0.5,
+        //         mapRect.y - mapRect.height * 0.15,
+        //         mapRect.width * 0.1,
+        //         mapRect.height * 0.1,
+        //         0xffa500,
+        //         //0xffffff, - the white hex code
+        //         0.7
+        //     )
+        //     .setDepth(1006);
 
         //Black rectangle - outline
         outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
@@ -167,15 +180,6 @@ export default class MazeMap extends Phaser.Scene {
                 0.7
             )
             .setDepth(1006);
-
-        //Code to make each square tie to a room.
-        const changeRooms = (sceneKey: string) => {
-            this.scene.stop();
-            this.scene.start(sceneKey, {
-                threads: 5 - this.usedThreads,
-                currentScene: "maze-map",
-            });
-        };
 
         // Close button that will return to the game screen
         const close = this.add
