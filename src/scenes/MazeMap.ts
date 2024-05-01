@@ -14,6 +14,7 @@ export default class MazeMap extends Phaser.Scene {
     }
 
     create() {
+        //The rectangle for the overall map.
         const mapRect = this.add
             .rectangle(
                 this.cameras.main.width - 380,
@@ -29,46 +30,152 @@ export default class MazeMap extends Phaser.Scene {
         const outline = this.add.graphics();
         outline.setDepth(1007);
 
+        //Blue rectangle - outline
         outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
         outline.strokeRect(
-            mapRect.x + mapRect.width * 0.2,
-            mapRect.y - mapRect.height * 0.3,
-            mapRect.width * 0.1,
-            mapRect.height * 0.1
-        );
-
-        this.add
-            .rectangle(
-                mapRect.x + mapRect.width * 0.25,
-                mapRect.y - mapRect.height * 0.25,
-                mapRect.width * 0.1,
-                mapRect.height * 0.1,
-                0xffffff,
-                0.7
-            )
-            .setDepth(1006);
-
-        const outline1 = this.add.graphics();
-        outline1.setDepth(1007);
-
-        outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
-        outline1.strokeRect(
-            mapRect.x + mapRect.width * 0.3,
+            mapRect.x + mapRect.width * 0.75,
             mapRect.y - mapRect.height * 0.45,
             mapRect.width * 0.1,
             mapRect.height * 0.1
         );
 
-        this.add
+        const Room1 = this.add
+            //Blue rectangle - Room1
             .rectangle(
-                mapRect.x + mapRect.width * 0.35,
+                mapRect.x + mapRect.width * 0.8,
                 mapRect.y - mapRect.height * 0.4,
                 mapRect.width * 0.1,
                 mapRect.height * 0.1,
-                0xffffff,
+                0x0033ff,
+                //0xffffff, - the white hex code
                 0.7
             )
             .setDepth(1006);
+
+        //Event to change rooms
+        //Room1.on("pointerdown", () => goToScene("room1"));
+
+        const outline1 = this.add.graphics();
+        outline1.setDepth(1007);
+
+        //Red rectangle - outline
+        outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline1.strokeRect(
+            mapRect.x + mapRect.width * 0.15,
+            mapRect.y - mapRect.height * 0.45,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        const Room2 = this.add
+            //Red rectangle - Room2
+            .rectangle(
+                mapRect.x + mapRect.width * 0.2,
+                mapRect.y - mapRect.height * 0.4,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0xff0000,
+                //0xffffff, - white hex code
+                0.7
+            )
+            .setDepth(1006);
+
+        //Pink rectangle - outline
+        outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline1.strokeRect(
+            mapRect.x + mapRect.width * 0.15,
+            mapRect.y - mapRect.height * 0.85,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        const Room3 = this.add
+            //Pink rectangle - Room3
+            .rectangle(
+                mapRect.x + mapRect.width * 0.2,
+                mapRect.y - mapRect.height * 0.8,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0xff69b4,
+                //0xffffff, - white hex code
+                0.7
+            )
+            .setDepth(1006);
+
+        //Purple rectangle - outline
+        outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline.strokeRect(
+            mapRect.x + mapRect.width * 0.75,
+            mapRect.y - mapRect.height * 0.85,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        const Room4 = this.add
+            //Purple rectangle - Room4
+            .rectangle(
+                mapRect.x + mapRect.width * 0.8,
+                mapRect.y - mapRect.height * 0.8,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0x800080,
+                //0xffffff, - the white hex code
+                0.7
+            )
+            .setDepth(1006);
+
+        //Orange rectangle - outline
+        outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline.strokeRect(
+            mapRect.x + mapRect.width * 0.45,
+            mapRect.y - mapRect.height * 0.2,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        const mainRoom = this.add
+            //Orange rectangle - MainScene
+            .rectangle(
+                mapRect.x + mapRect.width * 0.5,
+                mapRect.y - mapRect.height * 0.15,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0xffa500,
+                //0xffffff, - the white hex code
+                0.7
+            )
+            .setDepth(1006);
+
+        //Black rectangle - outline
+        outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
+        outline.strokeRect(
+            mapRect.x + mapRect.width * 0.45,
+            mapRect.y - mapRect.height * 0.65,
+            mapRect.width * 0.1,
+            mapRect.height * 0.1
+        );
+
+        const minotaurRoom = this.add
+            //Black rectangle - Minotaur Room
+            .rectangle(
+                mapRect.x + mapRect.width * 0.5,
+                mapRect.y - mapRect.height * 0.6,
+                mapRect.width * 0.1,
+                mapRect.height * 0.1,
+                0x000000,
+                //0xffffff, - the white hex code
+                0.7
+            )
+            .setDepth(1006);
+
+        //Code to make each square tie to a room.
+        const changeRooms = (sceneKey: string) => {
+            this.scene.stop();
+            this.scene.start(sceneKey, {
+                threads: 5 - this.usedThreads,
+                currentScene: "maze-map",
+            });
+        };
 
         // Close button that will return to the game screen
         const close = this.add

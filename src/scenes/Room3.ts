@@ -12,7 +12,7 @@ export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Tilemaps.Tile;
 
-export default class MainScene extends Phaser.Scene {
+export default class Room3 extends Phaser.Scene {
     private theseus?: Theseus;
     private map: Phaser.Tilemaps.Tilemap;
     private doorLayer: Phaser.Tilemaps.TilemapLayer;
@@ -37,7 +37,7 @@ export default class MainScene extends Phaser.Scene {
     ];
 
     constructor() {
-        super({ key: "mainScene" });
+        super({ key: "Room3" });
     }
 
     init(data: {
