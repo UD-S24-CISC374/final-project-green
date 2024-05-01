@@ -23,18 +23,37 @@ export default class Room2 extends Phaser.Scene {
     private hp: number;
     private threads: number;
     private weapon: string;
+    private itemList: string[];
+
+    private dropList = [
+        { item: "sword-damage-up", weight: 15 },
+        { item: "sword-speed-up", weight: 15 },
+        { item: "sword-fire", weight: 10 },
+        { item: "sword-ice", weight: 10 },
+        { item: "bow-damage-up", weight: 15 },
+        { item: "bow-speed-up", weight: 15 },
+        { item: "bow-poison", weight: 10 },
+        { item: "bow-triple", weight: 10 },
+    ];
 
     constructor() {
         super({ key: "Room2" });
     }
 
-    init(data: { hp: number; threads: number; weaponType: string }) {
+    init(data: {
+        hp: number;
+        threads: number;
+        weaponType: string;
+        itemList: string[];
+    }) {
         this.hp = data.hp;
         this.threads = data.threads;
         this.weapon = data.weaponType;
+        this.itemList = data.itemList;
     }
 
     create() {
+        console.log("main scene start");
         this.scene.run("game-ui", {
             hp: this.theseus?.health,
             threads: this.threads,
@@ -79,22 +98,24 @@ export default class Room2 extends Phaser.Scene {
         debugDraw(wallsLayer, this, false);
         debugDraw(this.doorLayer, this, false);
 
-        this.theseus = this.add.theseus(160, 160, "faune");
+        this.theseus = this.add.theseus(
+            this.cameras.main.width * 0.5,
+            this.cameras.main.height * 0.5,
+            "faune"
+        );
         this.theseus.health = this.hp;
         this.theseus.weaponType = this.weapon;
-        // console.log("this.weapon: " + this.weapon);
-        // console.log("this.theseus.weaponType: " + this.theseus.weaponType);
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
 
         for (let i = 0; i < 3; i++) {
-            let posX = Phaser.Math.Between(80, 268);
-            let posY = Phaser.Math.Between(80, 268);
-            while ((posX > 140 && posX < 180) || (posY > 140 && posY < 180)) {
-                posX = Phaser.Math.Between(80, 268);
-                posY = Phaser.Math.Between(80, 268);
+            let posX = Phaser.Math.Between(24, 488);
+            let posY = Phaser.Math.Between(76, 355);
+            while ((posX > 236 && posX < 276) || (posY > 172 && posY < 212)) {
+                posX = Phaser.Math.Between(24, 488);
+                posY = Phaser.Math.Between(76, 355);
             }
             this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }
@@ -175,12 +196,20 @@ export default class Room2 extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown-ESC", () => {
             this.scene.pause();
-            this.scene.run("pause", { currentScene: "Room2" });
+            this.scene.run("pause", { currentScene: "mainScene" });
         });
 
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
-            this.scene.run("weapon-design");
+            this.scene.run("weapon-design", {
+                from: "mainScene",
+                itemList: this.itemList,
+            });
+        });
+
+        sceneEvents.on("enemy-destroyed", this.handleEnemyDropItem, this);
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off("enemy-destroyed", this.handleEnemyDropItem, this);
         });
     }
 
@@ -194,11 +223,21 @@ export default class Room2 extends Phaser.Scene {
             true
         );
         if (this.cursors?.space.isDown && tile.index != -1) {
-            this.scene.start("Room2", {
-                hp: this.theseus.health,
-                threads: this.threads - 1,
-                weaponType: this.theseus.weaponType,
-            });
+            if (this.threads > 1) {
+                this.scene.start("maze-map", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            } else {
+                this.scene.start("minotaur", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            }
         }
     }
 
@@ -274,6 +313,62 @@ export default class Room2 extends Phaser.Scene {
     private handleEnemyDefeated() {
         this.doorLayer.setCollisionByProperty({ collides: true }, false);
         this.doorLayer.setVisible(false);
+    }
+
+    private handleEnemyDropItem(dropX: number, dropY: number) {
+        const ranNum = Math.random() * 100;
+
+        if (ranNum <= 40) {
+            const randomWeight = Math.random() * 100;
+            let accumulatedWeight = 0;
+            let itemIdx = 0;
+            for (const item of this.dropList) {
+                accumulatedWeight += item.weight;
+                if (randomWeight <= accumulatedWeight) {
+                    itemIdx = this.dropList.indexOf(item);
+                    break;
+                }
+            }
+            // const ranIdx = Math.floor(Math.random() * this.dropList.length);
+            const dropItem = this.physics.add.image(
+                dropX,
+                dropY,
+                this.dropList[itemIdx].item
+            );
+            dropItem.setScale(1.5);
+            this.tweens.add({
+                targets: dropItem,
+                y: "-=10",
+                duration: 1000,
+                yoyo: true,
+                repeat: -1,
+            });
+            if (!this.theseus) {
+                return;
+            }
+            this.physics.add.overlap(
+                this.theseus,
+                dropItem,
+                this.handlePlayerItemGet,
+                undefined,
+                this
+            );
+        }
+    }
+
+    private handlePlayerItemGet(
+        player:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        item:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const dropItem =
+            item as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.itemList.push(dropItem.texture.key);
+        console.log(this.itemList);
+        dropItem.destroy();
     }
 
     update() {

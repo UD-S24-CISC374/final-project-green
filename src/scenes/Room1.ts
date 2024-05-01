@@ -224,7 +224,7 @@ export default class Room1 extends Phaser.Scene {
         );
         if (this.cursors?.space.isDown && tile.index != -1) {
             if (this.threads > 1) {
-                this.scene.start("mainScene", {
+                this.scene.start("maze-map", {
                     hp: this.theseus.health,
                     threads: this.threads - 1,
                     weaponType: this.theseus.weaponType,
