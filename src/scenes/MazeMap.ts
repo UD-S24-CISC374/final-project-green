@@ -64,6 +64,17 @@ export default class MazeMap extends Phaser.Scene {
         const outline1 = this.add.graphics();
         outline1.setDepth(1007);
 
+        Room1.on("pointerdown", () => {
+            if (this.previous === "mainRoom") {
+                changeRooms("Room1");
+            }
+        });
+        Room1.on("pointerdown", () => {
+            if (this.previous === "Room2") {
+                changeRooms("Room1");
+            }
+        });
+
         //Red rectangle - outline
         outline1.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
         outline1.strokeRect(
@@ -73,7 +84,7 @@ export default class MazeMap extends Phaser.Scene {
             mapRect.height * 0.1
         );
 
-        const Room2 = this.add
+        const mainRoom = this.add
             //Red rectangle - MainScene
             .rectangle(
                 mapRect.x + mapRect.width * 0.2,
@@ -86,10 +97,10 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
-        //Event to change rooms
-        Room1.on("pointerdown", () => {
-            if (.data.currentScene === "mainScene") {
-                changeRooms("room1");
+        //if the user clicks on mainRoom from Room1 they can go to it.
+        mainRoom.on("pointerdown", () => {
+            if (this.previous === "Room1") {
+                changeRooms("mainRoom");
             }
         });
 
@@ -115,6 +126,18 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
+        Room3.on("pointerdown", () => {
+            if (this.previous === "mainRoom") {
+                changeRooms("Room3");
+            }
+        });
+
+        Room3.on("pointerdown", () => {
+            if (this.previous === "Room2") {
+                changeRooms("Room3");
+            }
+        });
+
         //Purple rectangle - outline
         outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
         outline.strokeRect(
@@ -124,7 +147,7 @@ export default class MazeMap extends Phaser.Scene {
             mapRect.height * 0.1
         );
 
-        const Room4 = this.add
+        const Room2 = this.add
             //Purple rectangle - Room4
             .rectangle(
                 mapRect.x + mapRect.width * 0.8,
@@ -137,27 +160,11 @@ export default class MazeMap extends Phaser.Scene {
             )
             .setDepth(1006);
 
-        // //Orange rectangle - outline
-        // outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
-        // outline.strokeRect(
-        //     mapRect.x + mapRect.width * 0.45,
-        //     mapRect.y - mapRect.height * 0.2,
-        //     mapRect.width * 0.1,
-        //     mapRect.height * 0.1
-        // );
-
-        // const mainRoom = this.add
-        //     //Orange rectangle - MainScene
-        //     .rectangle(
-        //         mapRect.x + mapRect.width * 0.5,
-        //         mapRect.y - mapRect.height * 0.15,
-        //         mapRect.width * 0.1,
-        //         mapRect.height * 0.1,
-        //         0xffa500,
-        //         //0xffffff, - the white hex code
-        //         0.7
-        //     )
-        //     .setDepth(1006);
+        Room2.on("pointerdown", () => {
+            if (this.previous === "Room3") {
+                changeRooms("Room2");
+            }
+        });
 
         //Black rectangle - outline
         outline.lineStyle(1.5, 0x000000, 1); // Set line style: width, color (black), and alpha (opacity)
@@ -180,6 +187,12 @@ export default class MazeMap extends Phaser.Scene {
                 0.7
             )
             .setDepth(1006);
+
+        minotaurRoom.on("pointerdown", () => {
+            if (this.previous === "Room3") {
+                changeRooms("minotaurRoom");
+            }
+        });
 
         // Close button that will return to the game screen
         const close = this.add
