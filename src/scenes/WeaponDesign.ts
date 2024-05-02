@@ -22,6 +22,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
     private upgradeList: string[];
     private updatedItemList: string[];
+    private updateCodeList: string[];
 
     private dropZones: Phaser.GameObjects.Zone[];
     private inputField: HTMLInputElement;
@@ -34,9 +35,10 @@ export default class WeaponDesign extends Phaser.Scene {
         this.upgradeList = [];
     }
 
-    init(data: { from: string; itemList: string[] }) {
+    init(data: { from: string; itemList: string[]; updateCodeList: string[] }) {
         this.previous = data.from;
         this.itemList = data.itemList;
+        this.updateCodeList = data.updateCodeList;
     }
 
     create() {
@@ -60,6 +62,28 @@ export default class WeaponDesign extends Phaser.Scene {
         this.theseusFile.setVisible(false);
         this.swordFile.setVisible(false);
         this.bowFile.setVisible(false);
+
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (this.updateCodeList) {
+            this.updateCodeList.forEach((text: string, index: number) => {
+                let textY = this.cameras.main.height * 0.25;
+                this.add
+                    .text(
+                        this.cameras.main.width * 0.1,
+                        textY + 20 * index,
+                        text,
+                        {
+                            fontSize: "12px",
+                            fontFamily: "Academy Engraved LET",
+                            strokeThickness: 3,
+                            stroke: "0xffffff",
+                        }
+                    )
+                    .setOrigin(0)
+                    .setDepth(1000)
+                    .setVisible(true);
+            });
+        }
 
         //Previous button that will switch to previous java file
         const previous = this.add
@@ -408,7 +432,9 @@ export default class WeaponDesign extends Phaser.Scene {
                 });
             this.game.scene.resume(this.previous, {
                 updatedList: this.updatedItemList,
+                updateCodeList: this.updateCodeList,
             });
+            console.log(this.updateCodeList);
             this.scene.stop();
         });
     }
@@ -439,15 +465,12 @@ export default class WeaponDesign extends Phaser.Scene {
         );
 
         if (keyEnter?.isDown) {
-            console.log("enter key down");
             if (!this.inputEntered) {
                 this.inputEntered = true;
 
                 const inputValue = this.inputField.value;
                 const inputParts = inputValue.split(".");
                 const itemParts = this.holdingItem.texture.key.split("-");
-
-                console.log(inputParts);
 
                 let isCorrect = false;
 
@@ -540,7 +563,12 @@ export default class WeaponDesign extends Phaser.Scene {
                     this.codeList.remove(this.holdingItem);
                     this.upgradeList.push(this.holdingItem.texture.key);
                     this.holdingItem.destroy();
+                    completeText.setY(
+                        this.cameras.main.height * 0.25 +
+                            20 * this.updateCodeList.length
+                    );
                     completeText.setVisible(true);
+                    this.updateCodeList.push(completeText.text);
                 }
             }
         }

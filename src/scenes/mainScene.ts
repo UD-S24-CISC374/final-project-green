@@ -198,11 +198,14 @@ export default class MainScene extends Phaser.Scene {
             this.scene.run("pause", { currentScene: "mainScene" });
         });
 
+        let updateCodeList: string[] = [];
+
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
             this.scene.run("weapon-design", {
                 from: "mainScene",
                 itemList: this.itemList,
+                updateCodeList: updateCodeList,
             });
         });
 
@@ -213,8 +216,15 @@ export default class MainScene extends Phaser.Scene {
 
         this.events.on(
             "resume",
-            (scene: this, data: { updatedList: string[] }) => {
+            (
+                scene: this,
+                data: {
+                    updatedList: string[];
+                    updateCodeList: string[];
+                }
+            ) => {
                 this.itemList = data.updatedList;
+                updateCodeList = data.updateCodeList;
             }
         );
     }
