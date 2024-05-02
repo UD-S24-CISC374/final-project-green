@@ -15,9 +15,31 @@ declare global {
 
 export default class Bow extends Phaser.Physics.Arcade.Sprite {
     private _damage: number;
+    private _speed: number;
+    private _attackType: string;
 
     get damage() {
         return this._damage;
+    }
+
+    get speed() {
+        return this._speed;
+    }
+
+    get attackType() {
+        return this._attackType;
+    }
+
+    set damage(damage: number) {
+        this._damage = damage;
+    }
+
+    set speed(speed: number) {
+        this._speed = speed;
+    }
+
+    set attackType(newType: string) {
+        this._attackType = newType;
     }
 
     constructor(
@@ -29,6 +51,8 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
     ) {
         super(scene, x, y, texture, frame);
         this._damage = 3;
+        this._speed = 3;
+        this._attackType = "classic";
         this.anims.play("bow-idle");
     }
 
@@ -58,6 +82,14 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
                 arrow.destroy();
             }
         );
+    }
+
+    incDamage() {
+        this._damage += 1;
+    }
+
+    incSpeed() {
+        this._speed += 1;
     }
 
     update() {}

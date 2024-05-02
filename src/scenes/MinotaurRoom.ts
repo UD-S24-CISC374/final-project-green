@@ -24,6 +24,10 @@ export default class MinotaurRoom extends Phaser.Scene {
     private threads: number;
     private weapon: string;
     private itemList: string[];
+    private updateCodeList: string[] | undefined;
+    private upgrades = 0;
+    private swordStatus: string[];
+    private bowStatus: string[];
 
     // private healthBar: Phaser.GameObjects.Graphics;
 
@@ -47,11 +51,17 @@ export default class MinotaurRoom extends Phaser.Scene {
         threads: number;
         weaponType: string;
         itemList: string[];
+        updateCodeList: string[];
+        swordStatus: string[];
+        bowStatus: string[];
     }) {
         this.hp = data.hp;
         this.threads = data.threads;
         this.weapon = data.weaponType;
         this.itemList = data.itemList;
+        this.updateCodeList = data.updateCodeList;
+        this.swordStatus = data.swordStatus;
+        this.bowStatus = data.bowStatus;
     }
 
     create() {
@@ -97,6 +107,14 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.theseus.health = this.hp;
         this.theseus.weaponType = this.weapon;
         this.theseus.anims.play("faune-idle-up");
+
+        this.theseus.getSword.damage = parseInt(this.swordStatus[0]);
+        this.theseus.getSword.speed = parseInt(this.swordStatus[1]);
+        this.theseus.getSword.attackType = this.swordStatus[2];
+
+        this.theseus.getBow.damage = parseInt(this.bowStatus[0]);
+        this.theseus.getBow.speed = parseInt(this.bowStatus[1]);
+        this.theseus.getBow.attackType = this.bowStatus[2];
 
         this.minotaur = this.physics.add.group({
             classType: Minotaur,
@@ -176,12 +194,37 @@ export default class MinotaurRoom extends Phaser.Scene {
         });
 
         this.input.keyboard?.on("keydown-E", () => {
+            let tempList: string[] = [];
+            if (this.updateCodeList != undefined) {
+                tempList = this.updateCodeList;
+            }
             this.scene.pause();
             this.scene.run("weapon-design", {
                 from: "minotaur",
                 itemList: this.itemList,
+                updateCodeList: tempList,
             });
         });
+
+        this.events.on("weapon-updated", this.handleWeaponUpdated, this);
+
+        this.events.on(
+            "resume",
+            (
+                scene: this,
+                data: {
+                    updatedList: string[];
+                    updateCodeList: string[];
+                    upgradeList: string[];
+                }
+            ) => {
+                this.itemList = data.updatedList;
+                this.updateCodeList = data.updateCodeList;
+                if (this.upgrades < data.upgradeList.length) {
+                    this.handleWeaponUpdated(data.upgradeList);
+                }
+            }
+        );
     }
 
     // createHealthBar() {
@@ -290,6 +333,47 @@ export default class MinotaurRoom extends Phaser.Scene {
         if (this.theseus?.getWeapon) {
             minotaur.handleDamage(this.theseus.getWeapon.damage);
         }
+    }
+
+    private handleWeaponUpdated(upgradeList: string[]) {
+        upgradeList.forEach((text: string, index: number) => {
+            if (!this.theseus) {
+                return;
+            }
+            if (index >= this.upgrades) {
+                if (text === "sword-fire") {
+                    this.theseus.getSword.attackType = "fire";
+                } else if (text === "sword-ice") {
+                    this.theseus.getSword.attackType = "ice";
+                } else if (text === "sword-damage-up") {
+                    this.theseus.getSword.incDamage();
+                } else if (text === "sword-speed-up") {
+                    this.theseus.getSword.incSpeed();
+                } else if (text === "bow-poison") {
+                    this.theseus.getBow.attackType = "poison";
+                } else if (text === "bow-triple") {
+                    this.theseus.getBow.attackType = "triple";
+                } else if (text === "bow-damage-up") {
+                    this.theseus.getBow.incDamage();
+                } else if (text === "bow-speed-up") {
+                    this.theseus.getBow.incSpeed();
+                }
+                this.upgrades++;
+            }
+        });
+        console.log(
+            "sword",
+            this.theseus?.getSword.damage,
+            this.theseus?.getSword.attackType,
+            this.theseus?.getSword.speed,
+            "\nbow",
+            this.theseus?.getBow.damage,
+            this.theseus?.getBow.attackType,
+            this.theseus?.getBow.speed,
+            "\nupgrades",
+            this.upgrades,
+            upgradeList
+        );
     }
 
     update() {

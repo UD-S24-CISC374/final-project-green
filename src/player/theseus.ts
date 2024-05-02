@@ -60,6 +60,14 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         return this.weapon;
     }
 
+    get getSword() {
+        return this.sword;
+    }
+
+    get getBow() {
+        return this.bow;
+    }
+
     get weaponType() {
         return this._weaponType;
     }
@@ -89,6 +97,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         this.canAttack = true;
         this.setDepth(500);
+
+        // this.scene.events.on("weapon-updated", this.handleWeaponUpdated, this);
     }
 
     handleDamage(dir: Phaser.Math.Vector2) {
@@ -153,16 +163,46 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         if (this.weapon instanceof Sword) {
             this.weapon.handleSwordSlash(angle);
-            this.scene.time.delayedCall(600, () => {
-                this.canAttack = true;
-            });
+            this.scene.time.delayedCall(
+                600 - 10 * (this.weapon.speed - 3),
+                () => {
+                    this.canAttack = true;
+                }
+            );
         } else if (this.weapon instanceof Bow) {
             this.weapon.handleArrow(angle);
-            this.scene.time.delayedCall(400, () => {
-                this.canAttack = true;
-            });
+            this.scene.time.delayedCall(
+                400 - 10 * (this.weapon.speed - 3),
+                () => {
+                    this.canAttack = true;
+                }
+            );
         }
     }
+
+    // private handleWeaponUpdated(upgradeList: string[]) {
+    //     console.log("event listener worked");
+    //     upgradeList.forEach((text: string) => {
+    //         if (text === "sword-fire") {
+    //             this.weapon.type = "fire";
+    //         } else if (text === "sword-ice") {
+    //             this.weapon.type = "ice";
+    //         } else if (text === "sword-damage-up") {
+    //             this.getWeapon.incDamage();
+    //         } else if (text === "sword-speed-up") {
+    //             this.weapon.incSpeed();
+    //         } else if (text === "bow-poison") {
+    //             this.weapon.type = "poison";
+    //         } else if (text === "bow-triple") {
+    //             this.weapon.type = "triple";
+    //         } else if (text === "bow-damage-up") {
+    //             this.weapon.incDamage();
+    //         } else if (text === "bow-speed-up") {
+    //             this.weapon.incSpeed();
+    //         }
+    //     });
+    //     console.log(this.weapon.damage, this.weapon.type, this.weapon.speed);
+    // }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
         if (

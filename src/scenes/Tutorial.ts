@@ -289,11 +289,21 @@ export default class Tutorial extends Phaser.Scene {
         //this.scene.start("maze-map")
 
         if (this.cursors?.space.isDown && tile.index != -1) {
+            const swordStatus: string[] = [];
+            const bowStatus: string[] = [];
+            swordStatus.push(this.theseus.getSword.damage.toString());
+            swordStatus.push(this.theseus.getSword.speed.toString());
+            swordStatus.push(this.theseus.getSword.attackType);
+            bowStatus.push(this.theseus.getBow.damage.toString());
+            bowStatus.push(this.theseus.getBow.speed.toString());
+            bowStatus.push(this.theseus.getBow.attackType);
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
                 threads: 5,
                 weaponType: this.theseus.weaponType,
                 itemList: [],
+                swordStatus: swordStatus,
+                bowStatus: bowStatus,
             });
         }
     }

@@ -433,6 +433,7 @@ export default class WeaponDesign extends Phaser.Scene {
             this.game.scene.resume(this.previous, {
                 updatedList: this.updatedItemList,
                 updateCodeList: this.updateCodeList,
+                upgradeList: this.upgradeList,
             });
             console.log(this.updateCodeList);
             this.scene.stop();
@@ -569,6 +570,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     );
                     completeText.setVisible(true);
                     this.updateCodeList.push(completeText.text);
+                    this.events.emit("weapon-updated", this.upgradeList);
                 }
             }
         }
