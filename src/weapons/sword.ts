@@ -64,6 +64,16 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
             "Classic_13.png"
         );
 
+        if (this.attackType === "ice") {
+            swordSlash.setFrame("Alternative_2_13.png");
+            swordSlash.anims.play("sword_attack_ice", true);
+        } else if (this.attackType === "fire") {
+            swordSlash.setFrame("Alternative_3_13.png");
+            swordSlash.anims.play("sword_attack_fire", true);
+        } else {
+            swordSlash.anims.play("sword_attack", true);
+        }
+
         swordSlash.body.setSize(
             swordSlash.width * 0.4,
             swordSlash.height * 0.4
@@ -73,7 +83,6 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
 
         swordSlash.setScale(0.3);
         swordSlash.setRotation(angle - Math.PI / 4);
-        swordSlash.anims.play("sword_attack", true);
 
         swordSlash.on(
             Phaser.Animations.Events.ANIMATION_COMPLETE,

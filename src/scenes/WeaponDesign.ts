@@ -430,7 +430,8 @@ export default class WeaponDesign extends Phaser.Scene {
                         this.updatedItemList.push(image.texture.key);
                     }
                 });
-            this.game.scene.resume(this.previous, {
+            this.scene.resume(this.previous, {
+                previous: "weapon-design",
                 updatedList: this.updatedItemList,
                 updateCodeList: this.updateCodeList,
                 upgradeList: this.upgradeList,

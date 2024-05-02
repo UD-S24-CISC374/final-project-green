@@ -65,7 +65,7 @@ export default class Pause extends Phaser.Scene {
         });
         resume.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume(this.previous);
+            this.scene.resume(this.previous, { previous: "pause" });
         });
 
         const restart = this.add
@@ -98,6 +98,8 @@ export default class Pause extends Phaser.Scene {
                 this.scene.stop("mainScene");
             } else if (this.previous === "tutorial") {
                 this.scene.stop("tutorial");
+            } else if (this.previous === "minotaur") {
+                this.scene.stop("minotaur");
             }
             this.scene.stop("game-ui");
             this.scene.start("TitleScene");
@@ -105,7 +107,7 @@ export default class Pause extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown-ESC", () => {
             this.scene.stop();
-            this.scene.resume(this.previous);
+            this.scene.resume(this.previous, { previous: "pause" });
         });
     }
 }
