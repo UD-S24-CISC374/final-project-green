@@ -7,11 +7,21 @@ enum HealthState {
     DEAD,
 }
 
+enum DamageState {
+    IDLE,
+    ICE,
+    FIRE,
+    POISON,
+}
+
 export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
     private target?: Phaser.Physics.Arcade.Sprite;
 
     private healthState = HealthState.IDLE;
+    private currentState = DamageState.IDLE;
     private damageTime = 0;
+    private effectTime = 0;
+    private decreaseTime = 0;
     private _health = 20;
     private maxHealth = 20;
     private speed = 50;
@@ -49,6 +59,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
 
         if (this._health <= 0) {
             this.healthState = HealthState.DEAD;
+            this._health = 0;
             this.setVelocity(0, 0);
             this.scene.tweens.add({
                 targets: this,
@@ -67,12 +78,49 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (attackType === "ice") {
+            this.currentState = DamageState.ICE;
+            this.effectTime = 0;
             this.speed = 40;
             this.setTint(0x0000ff);
-            this.scene.time.delayedCall(6000, () => {
-                this.speed = 50;
-                this.clearTint();
+        } else if (attackType === "fire") {
+            this.currentState = DamageState.FIRE;
+            this.effectTime = 0;
+            this.setTint(0xffff00);
+        }
+        if (attackType === "poison") {
+            this.currentState = DamageState.POISON;
+            this.effectTime = 0;
+            this.setTint(0x00ff00);
+        }
+    }
+
+    handleEffectDamage(damage: number) {
+        if (this._health <= 0) {
+            return;
+        }
+        // if (
+        //     this.currentState === DamageState.FIRE ||
+        //     this.currentState === DamageState.POISON
+        // ) {
+        //     return;
+        // }
+
+        this._health -= damage;
+
+        if (this._health <= 0) {
+            this.healthState = HealthState.DEAD;
+            this._health = 0;
+            this.setVelocity(0, 0);
+            this.scene.tweens.add({
+                targets: this,
+                alpha: 0,
+                duration: 300,
+                onComplete: () => {
+                    this.healthBar.destroy();
+                    this.destroy();
+                },
             });
+            sceneEvents.emit("enemy-destroyed", this.x, this.y);
         }
     }
 
@@ -111,6 +159,65 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
                     this.healthState = HealthState.IDLE;
                     this.setTint(0xffffff);
                     this.damageTime = 0;
+                }
+                break;
+        }
+
+        switch (this.currentState) {
+            case DamageState.IDLE:
+                break;
+            case DamageState.ICE:
+                this.effectTime += dt;
+                if (this.effectTime > 250) {
+                    this.setTint(0x0000ff);
+                }
+                if (this.effectTime >= 2000) {
+                    this.currentState = DamageState.IDLE;
+                    this.speed = 50;
+                    this.setTint(0xffffff);
+                    this.effectTime = 0;
+                }
+                break;
+            case DamageState.FIRE:
+                this.effectTime += dt;
+                this.decreaseTime += dt;
+                if (this.effectTime > 250) {
+                    this.setTint(0xffff00);
+                }
+                if (this.decreaseTime >= 200) {
+                    this.setTint(0xffffff);
+                }
+                if (this.decreaseTime >= 400) {
+                    this.handleEffectDamage(0.5);
+                    this.setTint(0xffff00);
+
+                    console.log(this._health);
+                    this.decreaseTime = 0;
+                }
+                if (this.effectTime >= 1600) {
+                    this.currentState = DamageState.IDLE;
+                    this.setTint(0xffffff);
+                    this.effectTime = 0;
+                }
+                break;
+            case DamageState.POISON:
+                this.effectTime += dt;
+                this.decreaseTime += dt;
+                if (this.effectTime > 250) {
+                    this.setTint(0x00ff00);
+                }
+                if (this.decreaseTime >= 200) {
+                    this.setTint(0xffffff);
+                }
+                if (this.decreaseTime >= 400) {
+                    this.handleEffectDamage(0.25);
+                    this.setTint(0x00ff00);
+                    this.decreaseTime = 0;
+                }
+                if (this.effectTime >= 1600) {
+                    this.currentState = DamageState.IDLE;
+                    this.setTint(0xffffff);
+                    this.effectTime = 0;
                 }
                 break;
         }
