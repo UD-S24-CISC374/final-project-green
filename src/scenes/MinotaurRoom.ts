@@ -215,11 +215,15 @@ export default class MinotaurRoom extends Phaser.Scene {
             (
                 scene: this,
                 data: {
+                    previous: string;
                     updatedList: string[];
                     updateCodeList: string[];
                     upgradeList: string[];
                 }
             ) => {
+                if (data.previous === "pause") {
+                    return;
+                }
                 this.itemList = data.updatedList;
                 this.updateCodeList = data.updateCodeList;
                 if (this.upgrades < data.upgradeList.length) {

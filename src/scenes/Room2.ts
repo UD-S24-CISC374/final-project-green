@@ -250,7 +250,10 @@ export default class MainScene extends Phaser.Scene {
         this.events.emit("swordSlashHit", swordSlash);
 
         if (this.theseus?.getWeapon) {
-            redEyesSkeleton.handleDamage(this.theseus.getWeapon.damage);
+            redEyesSkeleton.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
         }
     }
 
@@ -267,7 +270,10 @@ export default class MainScene extends Phaser.Scene {
         this.events.emit("arrowHit", arrow);
 
         if (this.theseus?.getWeapon) {
-            redEyesSkeleton.handleDamage(this.theseus.getWeapon.damage);
+            redEyesSkeleton.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
         }
     }
 
