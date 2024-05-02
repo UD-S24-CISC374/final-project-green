@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import Room2 from "./scenes/Room2";
 import PreloadScene from "./scenes/preloadScene";
 import TitleScene from "./scenes/TitleScene";
 import GameUI from "./scenes/GameUI";
@@ -11,6 +10,7 @@ import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
 import MinotaurRoom from "./scenes/MinotaurRoom";
 import GameClear from "./scenes/GameClear";
+import Instructions from "./scenes/Instructions";
 
 const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 384;
@@ -35,7 +35,6 @@ export const CONFIG = {
         TitleScene,
         Tutorial,
         MainScene,
-        Room2,
         MinotaurRoom,
         GameUI,
         MazeMap,
@@ -43,6 +42,7 @@ export const CONFIG = {
         Pause,
         GameOver,
         GameClear,
+        Instructions,
     ],
     physics: {
         default: "arcade",

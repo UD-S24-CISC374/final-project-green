@@ -244,6 +244,16 @@ export default class MainScene extends Phaser.Scene {
             this.scene.run("pause", { currentScene: "mainScene" });
         });
 
+        this.input.keyboard?.on("keydown-M", () => {
+            this.scene.pause();
+            this.scene.run("maze-map", { currentScene: "tutorial" });
+        });
+
+        this.input.keyboard?.on("keydown-I", () => {
+            this.scene.pause();
+            this.scene.run("instructions", { currentScene: "tutorial" });
+        });
+
         this.input.keyboard?.on("keydown-E", () => {
             let tempList: string[] = [];
             if (this.updateCodeList != undefined) {
@@ -316,7 +326,7 @@ export default class MainScene extends Phaser.Scene {
             }
 
             if (this.threads > 1) {
-                this.scene.start("maze-map", {
+                this.scene.start("mainScene", {
                     hp: this.theseus.health,
                     threads: this.threads - 1,
                     weaponType: this.theseus.weaponType,

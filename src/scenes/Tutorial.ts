@@ -237,6 +237,11 @@ export default class Tutorial extends Phaser.Scene {
             this.scene.run("maze-map", { currentScene: "tutorial" });
         });
 
+        this.input.keyboard?.on("keydown-I", () => {
+            this.scene.pause();
+            this.scene.run("instructions", { currentScene: "tutorial" });
+        });
+
         this.add
             .image(
                 this.cameras.main.width * 0.2,
