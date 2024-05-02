@@ -439,25 +439,108 @@ export default class WeaponDesign extends Phaser.Scene {
         );
 
         if (keyEnter?.isDown) {
+            console.log("enter key down");
             if (!this.inputEntered) {
                 this.inputEntered = true;
-                const inputValue = this.inputField.value;
-                {
-                    if (inputValue === "01111001") {
-                        this.inputField.remove();
-                        this.defaultCode.setVisible(false);
-                        this.codeList.remove(this.holdingItem);
-                        this.upgradeList.push(this.holdingItem.texture.key);
-                        this.holdingItem.destroy();
-                    } else {
-                        this.inputField.style.outlineColor =
-                            inputValue !== "01111001" ? "red" : "green";
-                        this.inputField.style.outlineWidth = "5px";
 
-                        this.inputField.addEventListener("input", () => {
-                            this.inputField.style.outlineColor = "initial";
-                        });
+                const inputValue = this.inputField.value;
+                const inputParts = inputValue.split(".");
+                const itemParts = this.holdingItem.texture.key.split("-");
+
+                console.log(inputParts);
+
+                let isCorrect = false;
+
+                const completeText = this.add
+                    .text(
+                        this.cameras.main.width * 0.1,
+                        this.cameras.main.height * 0.25,
+                        "",
+                        {
+                            fontSize: "12px",
+                            fontFamily: "Academy Engraved LET",
+                            strokeThickness: 3,
+                            stroke: "0xffffff",
+                        }
+                    )
+                    .setOrigin(0)
+                    .setDepth(1000)
+                    .setVisible(false);
+
+                // Check player's input
+                if (itemParts[0] === "sword") {
+                    if (inputParts[1] === "getSword()") {
+                        if (itemParts[1] === "fire") {
+                            if (inputParts[2] === 'setType("fire")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getSword().setType("fire");'
+                                );
+                            }
+                        } else if (itemParts[1] === "ice") {
+                            if (inputParts[2] === 'setType("ice")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getSword().setType("ice");'
+                                );
+                            }
+                        } else if (itemParts[1] === "damage") {
+                            if (inputParts[2] === "incDamage()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getSword().incDamage();"
+                                );
+                            }
+                        } else if (itemParts[1] === "speed") {
+                            if (inputParts[2] === "incSpeed()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getSword().incSpeed();"
+                                );
+                            }
+                        }
                     }
+                } else if (itemParts[0] === "bow") {
+                    if (inputParts[1] === "getBow()") {
+                        if (itemParts[1] === "poison") {
+                            if (inputParts[2] === 'setType("poison")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getBow().setType("poison");'
+                                );
+                            }
+                        } else if (itemParts[1] === "triple") {
+                            if (inputParts[2] === 'setType("triple")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getBow().setType("triple");'
+                                );
+                            }
+                        } else if (itemParts[1] === "damage") {
+                            if (inputParts[2] === "incDamage()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getBow().incDamage();"
+                                );
+                            }
+                        } else if (itemParts[1] === "speed") {
+                            if (inputParts[2] === "incSpeed()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getBow().incSpeed();"
+                                );
+                            }
+                        }
+                    }
+                }
+
+                if (isCorrect) {
+                    this.inputField.remove();
+                    this.defaultCode.setVisible(false);
+                    this.codeList.remove(this.holdingItem);
+                    this.upgradeList.push(this.holdingItem.texture.key);
+                    this.holdingItem.destroy();
+                    completeText.setVisible(true);
                 }
             }
         }
