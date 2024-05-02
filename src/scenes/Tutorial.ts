@@ -102,6 +102,9 @@ export default class Tutorial extends Phaser.Scene {
             "Thank goodness you came Theseus!",
             "The minotaur at the center of the maze has been plaguing my people for years.",
             "If you were able to make it to the center of the maze and defeat the minotaur, you would be the hero of Crete!",
+            "Here is some string to help you find your way out of the maze.",
+            "I have also layed out some tips for you, please read them! Also press I for more instructions.",
+            "Once you feel ready, enter the maze up ahead. ",
         ];
 
         //this.scene.run("maze-map");
@@ -234,6 +237,11 @@ export default class Tutorial extends Phaser.Scene {
             this.scene.run("maze-map", { currentScene: "tutorial" });
         });
 
+        this.input.keyboard?.on("keydown-I", () => {
+            this.scene.pause();
+            this.scene.run("instructions", { currentScene: "tutorial" });
+        });
+
         this.add
             .image(
                 this.cameras.main.width * 0.2,
@@ -302,9 +310,11 @@ export default class Tutorial extends Phaser.Scene {
         //this.scene.start("maze-map")
 
         if (this.cursors?.space.isDown && tile.index != -1) {
+            this.scene.pause();
+            //this.scene.run("maze-map", { currentScene: "tutorial" });
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
-                threads: 5,
+                threads: 4,
                 weaponType: this.theseus.weaponType,
                 itemList: [],
                 swordStatus: this.swordStatus,

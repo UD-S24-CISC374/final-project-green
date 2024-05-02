@@ -8,6 +8,9 @@ import "../player/theseus";
 import Theseus from "../player/theseus";
 import { sceneEvents } from "../events/eventsCenter";
 
+//blue star increases speed of the weapons
+//orange star increases the damage of the weapon
+
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Tilemaps.Tile;
@@ -142,6 +145,15 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
+        // let skeletonFlag;
+
+        // if (sessionStorage.getItem("skeletonsSpawned") !== "true") {
+        //     skeletonFlag = false; // Set initial value
+        // } else {
+        //     skeletonFlag =
+        //         sessionStorage.getItem("skeletonsSpawned") === "true";
+        // }
+
         for (let i = 0; i < 3; i++) {
             let posX = Phaser.Math.Between(24, 488);
             let posY = Phaser.Math.Between(76, 355);
@@ -151,6 +163,7 @@ export default class MainScene extends Phaser.Scene {
             }
             this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }
+        //sessionStorage.setItem("skeletonsSpawned", "true")
 
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
@@ -229,6 +242,16 @@ export default class MainScene extends Phaser.Scene {
         this.input.keyboard?.on("keydown-ESC", () => {
             this.scene.pause();
             this.scene.run("pause", { currentScene: "mainScene" });
+        });
+
+        this.input.keyboard?.on("keydown-M", () => {
+            this.scene.pause();
+            this.scene.run("maze-map", { currentScene: "tutorial" });
+        });
+
+        this.input.keyboard?.on("keydown-I", () => {
+            this.scene.pause();
+            this.scene.run("instructions", { currentScene: "tutorial" });
         });
 
         this.input.keyboard?.on("keydown-E", () => {

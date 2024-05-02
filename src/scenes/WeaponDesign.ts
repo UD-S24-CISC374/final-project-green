@@ -496,28 +496,28 @@ export default class WeaponDesign extends Phaser.Scene {
                 if (itemParts[0] === "sword") {
                     if (inputParts[1] === "getSword()") {
                         if (itemParts[1] === "fire") {
-                            if (inputParts[2] === 'setType("fire")') {
+                            if (inputParts[2] === 'setType("fire");') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getSword().setType("fire");'
                                 );
                             }
                         } else if (itemParts[1] === "ice") {
-                            if (inputParts[2] === 'setType("ice")') {
+                            if (inputParts[2] === 'setType("ice");') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getSword().setType("ice");'
                                 );
                             }
                         } else if (itemParts[1] === "damage") {
-                            if (inputParts[2] === "incDamage()") {
+                            if (inputParts[2] === "incDamage();") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getSword().incDamage();"
                                 );
                             }
                         } else if (itemParts[1] === "speed") {
-                            if (inputParts[2] === "incSpeed()") {
+                            if (inputParts[2] === "incSpeed();") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getSword().incSpeed();"
@@ -528,28 +528,28 @@ export default class WeaponDesign extends Phaser.Scene {
                 } else if (itemParts[0] === "bow") {
                     if (inputParts[1] === "getBow()") {
                         if (itemParts[1] === "poison") {
-                            if (inputParts[2] === 'setType("poison")') {
+                            if (inputParts[2] === 'setType("poison");') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getBow().setType("poison");'
                                 );
                             }
                         } else if (itemParts[1] === "triple") {
-                            if (inputParts[2] === 'setType("triple")') {
+                            if (inputParts[2] === 'setType("triple");') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getBow().setType("triple");'
                                 );
                             }
                         } else if (itemParts[1] === "damage") {
-                            if (inputParts[2] === "incDamage()") {
+                            if (inputParts[2] === "incDamage();") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getBow().incDamage();"
                                 );
                             }
                         } else if (itemParts[1] === "speed") {
-                            if (inputParts[2] === "incSpeed()") {
+                            if (inputParts[2] === "incSpeed();") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getBow().incSpeed();"
