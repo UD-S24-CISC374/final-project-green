@@ -28,6 +28,7 @@ export default class MazeMap extends Phaser.Scene {
 
         //Code to make each square tie to a room.
         const changeRooms = (sceneKey: string) => {
+            console.log("Changing rooms to:", sceneKey);
             this.scene.stop();
             this.scene.start(sceneKey, {
                 threads: 5 - this.usedThreads,
@@ -90,7 +91,9 @@ export default class MazeMap extends Phaser.Scene {
                 //0xffffff, - the white hex code
                 0.7
             )
-            .setDepth(1006);
+            .setDepth(1008);
+
+        const originalScale = Room1.scaleX;
 
         const outline1 = this.add.graphics();
         outline1.setDepth(1007);
@@ -104,6 +107,14 @@ export default class MazeMap extends Phaser.Scene {
             if (this.previous === "Room2") {
                 changeRooms("Room1");
             }
+        });
+
+        Room1.on("pointerover", () => {
+            Room1.setScale(originalScale * 1.1);
+        });
+
+        Room1.on("pointerout", () => {
+            Room1.setScale(originalScale);
         });
 
         //Red rectangle - outline
@@ -179,7 +190,7 @@ export default class MazeMap extends Phaser.Scene {
         );
 
         const Room2 = this.add
-            //Purple rectangle - Room4
+            //Purple rectangle - Room2
             .rectangle(
                 mapRect.x + mapRect.width * 0.8,
                 mapRect.y - mapRect.height * 0.8,
@@ -241,6 +252,7 @@ export default class MazeMap extends Phaser.Scene {
         close.on("pointerover", () => {
             close.setFontSize("27px");
         });
+
         close.on("pointerout", () => {
             close.setFontSize("25px");
         });
