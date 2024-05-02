@@ -249,10 +249,10 @@ export default class MainScene extends Phaser.Scene {
             this.scene.run("maze-map", { currentScene: "tutorial" });
         });
 
-        this.input.keyboard?.on("keydown-I", () => {
-            this.scene.pause();
-            this.scene.run("instructions", { currentScene: "tutorial" });
-        });
+        // this.input.keyboard?.on("keydown-I", () => {
+        //     this.scene.pause();
+        //     this.scene.run("instructions", { currentScene: "tutorial" });
+        // });
 
         this.input.keyboard?.on("keydown-E", () => {
             let tempList: string[] = [];
