@@ -10,6 +10,7 @@ import Pause from "./scenes/Pause";
 import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
 import MinotaurRoom from "./scenes/MinotaurRoom";
+import GameClear from "./scenes/GameClear";
 
 const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 384;
@@ -41,6 +42,7 @@ export const CONFIG = {
         WeaponDesign,
         Pause,
         GameOver,
+        GameClear,
     ],
     physics: {
         default: "arcade",
