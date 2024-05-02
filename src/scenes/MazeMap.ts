@@ -14,6 +14,18 @@ export default class MazeMap extends Phaser.Scene {
     }
 
     create() {
+        //Make black background.
+
+        const graphics = this.add.graphics();
+        graphics.fillStyle(0x000000, 1); // Set fill style to black with 100% alpha
+        graphics.fillRect(
+            0,
+            0,
+            this.cameras.main.width,
+            this.cameras.main.height
+        );
+        graphics.setDepth(1000); // Set depth to ensure it's behind other elements
+
         //Code to make each square tie to a room.
         const changeRooms = (sceneKey: string) => {
             this.scene.stop();
@@ -23,6 +35,24 @@ export default class MazeMap extends Phaser.Scene {
                 previous: this.scene.key,
             });
         };
+
+        //Title that says Map
+
+        this.add
+            .text(
+                this.cameras.main.width - 250,
+                this.cameras.main.height / 5,
+                "Map of the Maze",
+                {
+                    fontSize: "30px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 6,
+                    stroke: "0xffffff",
+                    //strokeAlpha: 1
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1008);
 
         //The rectangle for the overall map.
         const mapRect = this.add

@@ -113,6 +113,15 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
+        // let skeletonFlag;
+
+        // if (sessionStorage.getItem("skeletonsSpawned") !== "true") {
+        //     skeletonFlag = false; // Set initial value
+        // } else {
+        //     skeletonFlag =
+        //         sessionStorage.getItem("skeletonsSpawned") === "true";
+        // }
+
         for (let i = 0; i < 3; i++) {
             let posX = Phaser.Math.Between(24, 488);
             let posY = Phaser.Math.Between(76, 355);
@@ -122,6 +131,7 @@ export default class MainScene extends Phaser.Scene {
             }
             this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }
+        //sessionStorage.setItem("skeletonsSpawned", "true")
 
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
