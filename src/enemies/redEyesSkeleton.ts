@@ -19,12 +19,15 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
 
     private healthState = HealthState.IDLE;
     private currentState = DamageState.IDLE;
+
     private damageTime = 0;
     private effectTime = 0;
     private decreaseTime = 0;
+
     private _health = 20;
     private maxHealth = 20;
     private speed = 50;
+
     private healthBar: Phaser.GameObjects.Graphics;
 
     get health() {
@@ -98,12 +101,6 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         if (this._health <= 0) {
             return;
         }
-        // if (
-        //     this.currentState === DamageState.FIRE ||
-        //     this.currentState === DamageState.POISON
-        // ) {
-        //     return;
-        // }
 
         this._health -= damage;
 

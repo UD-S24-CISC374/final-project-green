@@ -281,7 +281,10 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.events.emit("swordSlashHit", swordSlash);
 
         if (this.theseus?.getWeapon) {
-            minotaur.handleDamage(this.theseus.getWeapon.damage);
+            minotaur.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
         }
     }
 
@@ -298,7 +301,10 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.events.emit("arrowHit", arrow);
 
         if (this.theseus?.getWeapon) {
-            minotaur.handleDamage(this.theseus.getWeapon.damage);
+            minotaur.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
         }
     }
 
@@ -346,7 +352,9 @@ export default class MinotaurRoom extends Phaser.Scene {
     update() {
         const enemyRemained = this.minotaur?.getChildren();
         if (enemyRemained!.length === 0) {
-            this.scene.start("GameClear");
+            this.time.delayedCall(1000, () => {
+                this.scene.start("GameClear");
+            });
         }
 
         if (this.theseus) {

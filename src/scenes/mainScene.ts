@@ -30,14 +30,14 @@ export default class MainScene extends Phaser.Scene {
     private bowStatus: string[];
 
     private dropList = [
-        { item: "sword-damage-up", weight: 15 },
-        { item: "sword-speed-up", weight: 15 },
+        { item: "sword-damage-up", weight: 14 },
+        { item: "sword-speed-up", weight: 14 },
         { item: "sword-fire", weight: 10 },
-        { item: "sword-ice", weight: 10 },
-        { item: "bow-damage-up", weight: 15 },
-        { item: "bow-speed-up", weight: 15 },
+        { item: "sword-ice", weight: 12 },
+        { item: "bow-damage-up", weight: 14 },
+        { item: "bow-speed-up", weight: 14 },
         { item: "bow-poison", weight: 10 },
-        { item: "bow-triple", weight: 10 },
+        { item: "bow-triple", weight: 12 },
     ];
 
     constructor() {
@@ -409,7 +409,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 100) {
+        if (ranNum <= 50) {
             const randomWeight = Math.random() * 100;
             let accumulatedWeight = 0;
             let itemIdx = 0;
