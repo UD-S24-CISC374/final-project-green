@@ -14,9 +14,13 @@ export default class Tutorial extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private theseus?: Theseus;
     private doorOpened: Phaser.Tilemaps.TilemapLayer;
+    private swordStatus: string[];
+    private bowStatus: string[];
 
     constructor() {
         super({ key: "tutorial" });
+        this.swordStatus = [];
+        this.bowStatus = [];
     }
 
     create() {
@@ -76,6 +80,13 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, doorLayer);
 
+        this.swordStatus.push(this.theseus.getSword.damage.toString());
+        this.swordStatus.push(this.theseus.getSword.speed.toString());
+        this.swordStatus.push(this.theseus.getSword.attackType);
+        this.bowStatus.push(this.theseus.getBow.damage.toString());
+        this.bowStatus.push(this.theseus.getBow.speed.toString());
+        this.bowStatus.push(this.theseus.getBow.attackType);
+
         const nextButton = this.add
             .image(
                 this.cameras.main.width - 80,
@@ -102,6 +113,8 @@ export default class Tutorial extends Phaser.Scene {
                 hp: this.theseus?.health,
                 threads: 5,
                 weaponType: this.theseus?.weaponType,
+                swordStatus: this.swordStatus,
+                bowStatus: this.bowStatus,
             });
             // this.add
             //     .image(
@@ -289,21 +302,13 @@ export default class Tutorial extends Phaser.Scene {
         //this.scene.start("maze-map")
 
         if (this.cursors?.space.isDown && tile.index != -1) {
-            const swordStatus: string[] = [];
-            const bowStatus: string[] = [];
-            swordStatus.push(this.theseus.getSword.damage.toString());
-            swordStatus.push(this.theseus.getSword.speed.toString());
-            swordStatus.push(this.theseus.getSword.attackType);
-            bowStatus.push(this.theseus.getBow.damage.toString());
-            bowStatus.push(this.theseus.getBow.speed.toString());
-            bowStatus.push(this.theseus.getBow.attackType);
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
                 threads: 5,
                 weaponType: this.theseus.weaponType,
                 itemList: [],
-                swordStatus: swordStatus,
-                bowStatus: bowStatus,
+                swordStatus: this.swordStatus,
+                bowStatus: this.bowStatus,
             });
         }
     }

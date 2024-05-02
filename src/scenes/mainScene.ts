@@ -65,11 +65,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.scene.run("game-ui", {
-            hp: this.theseus?.health,
-            threads: this.threads,
-            weaponType: this.theseus?.weaponType,
-        });
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
         createWeaponsAnims(this.anims);
@@ -126,6 +121,22 @@ export default class MainScene extends Phaser.Scene {
         this.theseus.getBow.damage = parseInt(this.bowStatus[0]);
         this.theseus.getBow.speed = parseInt(this.bowStatus[1]);
         this.theseus.getBow.attackType = this.bowStatus[2];
+
+        this.swordStatus = [];
+        this.bowStatus = [];
+        this.swordStatus.push(this.theseus.getSword.damage.toString());
+        this.swordStatus.push(this.theseus.getSword.speed.toString());
+        this.swordStatus.push(this.theseus.getSword.attackType);
+        this.bowStatus.push(this.theseus.getBow.damage.toString());
+        this.bowStatus.push(this.theseus.getBow.speed.toString());
+        this.bowStatus.push(this.theseus.getBow.attackType);
+        this.scene.run("game-ui", {
+            hp: this.theseus.health,
+            threads: this.threads,
+            weaponType: this.theseus.weaponType,
+            swordStatus: this.swordStatus,
+            bowStatus: this.bowStatus,
+        });
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
@@ -442,6 +453,9 @@ export default class MainScene extends Phaser.Scene {
     }
 
     private handleWeaponUpdated(upgradeList: string[]) {
+        if (!this.theseus) {
+            return;
+        }
         upgradeList.forEach((text: string, index: number) => {
             if (!this.theseus) {
                 return;
@@ -467,15 +481,27 @@ export default class MainScene extends Phaser.Scene {
                 this.upgrades++;
             }
         });
+        this.swordStatus = [];
+        this.bowStatus = [];
+        this.swordStatus.push(this.theseus.getSword.damage.toString());
+        this.swordStatus.push(this.theseus.getSword.speed.toString());
+        this.swordStatus.push(this.theseus.getSword.attackType);
+        this.bowStatus.push(this.theseus.getBow.damage.toString());
+        this.bowStatus.push(this.theseus.getBow.speed.toString());
+        this.bowStatus.push(this.theseus.getBow.attackType);
+        sceneEvents.emit("weapon-status-update", {
+            swordStatus: this.swordStatus,
+            bowStatus: this.bowStatus,
+        });
         console.log(
             "sword",
-            this.theseus?.getSword.damage,
-            this.theseus?.getSword.attackType,
-            this.theseus?.getSword.speed,
+            this.theseus.getSword.damage,
+            this.theseus.getSword.attackType,
+            this.theseus.getSword.speed,
             "\nbow",
-            this.theseus?.getBow.damage,
-            this.theseus?.getBow.attackType,
-            this.theseus?.getBow.speed,
+            this.theseus.getBow.damage,
+            this.theseus.getBow.attackType,
+            this.theseus.getBow.speed,
             "\nupgrades",
             this.upgrades,
             upgradeList

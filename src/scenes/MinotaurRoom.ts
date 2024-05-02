@@ -69,6 +69,8 @@ export default class MinotaurRoom extends Phaser.Scene {
             hp: this.theseus?.health,
             threads: this.threads,
             weaponType: this.theseus?.weaponType,
+            swordStatus: this.swordStatus,
+            bowStatus: this.bowStatus,
         });
         createTheseusAnims(this.anims);
         createMinotaurAnims(this.anims);
@@ -379,7 +381,7 @@ export default class MinotaurRoom extends Phaser.Scene {
     update() {
         const enemyRemained = this.minotaur?.getChildren();
         if (enemyRemained!.length === 0) {
-            this.events.emit("enemyDefeated");
+            this.scene.start("GameClear");
         }
 
         if (this.theseus) {
