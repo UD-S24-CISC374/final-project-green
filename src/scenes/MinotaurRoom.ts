@@ -229,45 +229,6 @@ export default class MinotaurRoom extends Phaser.Scene {
         );
     }
 
-    // createHealthBar() {
-    //     this.healthBar = this.add.graphics();
-    // this.healthBar.x = this.cameras.main.width * 0.15;
-    // this.healthBar.y = this.cameras.main.height * 0.08;
-    //     this.updateHealthBarSize();
-    // }
-
-    // updateHealthBarSize() {
-    //     if (!this.minotaur) {
-    //         return;
-    //     }
-
-    //     this.healthBar.clear();
-
-    //     this.healthBar.fillStyle(0x000000, 0.8);
-    //     this.healthBar.fillRect(
-    //         0,
-    //         0,
-    //         this.cameras.main.width * 0.7,
-    //         this.cameras.main.height * 0.05
-    //     );
-
-    //     let minotaur = null;
-
-    //     this.minotaur.children.iterate((c) => {
-    //         const m = c as Minotaur;
-    //         minotaur = m;
-    //         return true;
-    //     });
-
-    //     if (!minotaur) {
-    //         return;
-    //     }
-    //     const width = (minotaur?.health / 100) * this.cameras.main.width * 0.7;
-
-    //     this.healthBar.fillStyle(0xff0000, 1);
-    //     this.healthBar.fillRect(0, 0, width, this.cameras.main.height * 0.05);
-    // }
-
     private handlePlayerEnemyCollision(
         obj1:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody

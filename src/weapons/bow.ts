@@ -76,6 +76,39 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
             250
         );
 
+        if (this._attackType === "triple") {
+            this.scene.time.delayedCall(50, () => {
+                const arrow = this.scene.physics.add
+                    .image(this.x, this.y, "arrow")
+                    .setScale(2);
+                arrow.body.setSize(arrow.width * 0.8, arrow.height * 0.8);
+                this.scene.events.emit("arrowCreated", arrow);
+                arrow.setScale(0.3);
+                arrow.setRotation(angle - Math.PI / 4);
+                this.scene.physics.moveTo(
+                    arrow,
+                    this.scene.input.x,
+                    this.scene.input.y,
+                    250
+                );
+                this.scene.time.delayedCall(50, () => {
+                    const arrow = this.scene.physics.add
+                        .image(this.x, this.y, "arrow")
+                        .setScale(2);
+                    arrow.body.setSize(arrow.width * 0.8, arrow.height * 0.8);
+                    this.scene.events.emit("arrowCreated", arrow);
+                    arrow.setScale(0.3);
+                    arrow.setRotation(angle - Math.PI / 4);
+                    this.scene.physics.moveTo(
+                        arrow,
+                        this.scene.input.x,
+                        this.scene.input.y,
+                        250
+                    );
+                });
+            });
+        }
+
         this.scene.events.on(
             "arrowHit",
             (arrow: Phaser.Types.Physics.Arcade.ImageWithDynamicBody) => {
