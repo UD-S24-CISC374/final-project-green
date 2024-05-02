@@ -60,6 +60,14 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         return this.weapon;
     }
 
+    get getSword() {
+        return this.sword;
+    }
+
+    get getBow() {
+        return this.bow;
+    }
+
     get weaponType() {
         return this._weaponType;
     }
@@ -89,6 +97,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         this.canAttack = true;
         this.setDepth(500);
+
+        // this.scene.events.on("weapon-updated", this.handleWeaponUpdated, this);
     }
 
     handleDamage(dir: Phaser.Math.Vector2) {
@@ -153,14 +163,20 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         if (this.weapon instanceof Sword) {
             this.weapon.handleSwordSlash(angle);
-            this.scene.time.delayedCall(600, () => {
-                this.canAttack = true;
-            });
+            this.scene.time.delayedCall(
+                600 - 20 * (this.weapon.speed - 3),
+                () => {
+                    this.canAttack = true;
+                }
+            );
         } else if (this.weapon instanceof Bow) {
             this.weapon.handleArrow(angle);
-            this.scene.time.delayedCall(400, () => {
-                this.canAttack = true;
-            });
+            this.scene.time.delayedCall(
+                500 - 10 * (this.weapon.speed - 3),
+                () => {
+                    this.canAttack = true;
+                }
+            );
         }
     }
 
@@ -181,16 +197,20 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.weapon.setY(this.y + 7);
 
         const keyA = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.A
+            Phaser.Input.Keyboard.KeyCodes.A,
+            false
         );
         const keyS = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.S
+            Phaser.Input.Keyboard.KeyCodes.S,
+            false
         );
         const keyD = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.D
+            Phaser.Input.Keyboard.KeyCodes.D,
+            false
         );
         const keyW = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.W
+            Phaser.Input.Keyboard.KeyCodes.W,
+            false
         );
 
         if (keyA?.isDown) {

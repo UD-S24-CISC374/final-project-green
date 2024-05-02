@@ -18,8 +18,20 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("sword", "assets/weapons/sword_normal.png");
         this.load.atlas(
             "swordSlash",
-            "assets/weapons/swordSlash.png",
-            "assets/weapons/swordSlash.json"
+            "assets/weapons/slash1.png",
+            "assets/weapons/slash1.json"
+        );
+
+        this.load.atlas(
+            "swordSlash-ice",
+            "assets/weapons/slash2.png",
+            "assets/weapons/slash2.json"
+        );
+
+        this.load.atlas(
+            "swordSlash-fire",
+            "assets/weapons/slash3.png",
+            "assets/weapons/slash3.json"
         );
 
         this.load.atlas(
