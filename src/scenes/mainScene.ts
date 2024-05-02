@@ -210,6 +210,13 @@ export default class MainScene extends Phaser.Scene {
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
             sceneEvents.off("enemy-destroyed", this.handleEnemyDropItem, this);
         });
+
+        this.events.on(
+            "resume",
+            (scene: this, data: { updatedList: string[] }) => {
+                this.itemList = data.updatedList;
+            }
+        );
     }
 
     private handleEnterDoor() {
@@ -317,7 +324,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 40) {
+        if (ranNum <= 100) {
             const randomWeight = Math.random() * 100;
             let accumulatedWeight = 0;
             let itemIdx = 0;

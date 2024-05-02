@@ -181,16 +181,20 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.weapon.setY(this.y + 7);
 
         const keyA = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.A
+            Phaser.Input.Keyboard.KeyCodes.A,
+            false
         );
         const keyS = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.S
+            Phaser.Input.Keyboard.KeyCodes.S,
+            false
         );
         const keyD = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.D
+            Phaser.Input.Keyboard.KeyCodes.D,
+            false
         );
         const keyW = this.scene.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.W
+            Phaser.Input.Keyboard.KeyCodes.W,
+            false
         );
 
         if (keyA?.isDown) {

@@ -10,17 +10,28 @@ export default class WeaponDesign extends Phaser.Scene {
     private mainFile: Phaser.GameObjects.Group;
     private swordFile: Phaser.GameObjects.Group;
     private bowFile: Phaser.GameObjects.Group;
+    private defaultCode: Phaser.GameObjects.Text;
+
     private codeList: Phaser.GameObjects.Group;
-    private upgradeList: Phaser.GameObjects.Group;
+    private itemBox: Phaser.GameObjects.Group;
+
+    private holdingItem: Phaser.GameObjects.Image;
+
     private previous: string;
     private itemList: string[];
+
+    private upgradeList: string[];
+    private updatedItemList: string[];
+
     private dropZones: Phaser.GameObjects.Zone[];
-    private inputFields: { [key: string]: HTMLInputElement };
+    private inputField: HTMLInputElement;
+
+    private inputEntered = false;
 
     constructor() {
         super({ key: "weapon-design" });
         this.dropZones = [];
-        this.inputFields = {};
+        this.upgradeList = [];
     }
 
     init(data: { from: string; itemList: string[] }) {
@@ -29,6 +40,7 @@ export default class WeaponDesign extends Phaser.Scene {
     }
 
     create() {
+        this.updatedItemList = [];
         this.input.setDefaultCursor("default");
 
         this.theseusFile = this.add.group();
@@ -125,6 +137,21 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.input.setDefaultCursor("default");
             });
 
+            // Drag and Drop for items
+            let initialPosition: { x: number; y: number } | null = null;
+
+            this.input.on(
+                "dragstart",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image
+                ) => {
+                    if (gameObject.x >= this.cameras.main.width * 0.9) {
+                        initialPosition = { x: gameObject.x, y: gameObject.y };
+                    }
+                }
+            );
+
             this.input.on(
                 "drag",
                 (
@@ -146,13 +173,16 @@ export default class WeaponDesign extends Phaser.Scene {
                     dropped: boolean
                 ) => {
                     if (!dropped || this.current !== "Main") {
-                        gameObject.x = x;
-                        gameObject.y = y;
+                        if (initialPosition) {
+                            gameObject.x = initialPosition.x;
+                            gameObject.y = initialPosition.y;
+                        }
                     }
                 }
             );
         };
 
+        // List up the items that player collected
         for (let i = 0; i < this.itemList.length; i++) {
             let textureKeyToCountMap = 0;
             this.codeList
@@ -194,145 +224,159 @@ export default class WeaponDesign extends Phaser.Scene {
         }
 
         // box where the item will be dropped
-        this.upgradeList = this.add.group({
+        this.itemBox = this.add.group({
             classType: Phaser.GameObjects.Graphics,
         });
 
-        let boxX = this.cameras.main.width * 0.1 - 5;
-        let boxY = this.cameras.main.height * 0.25;
+        let itemBoxX = this.cameras.main.width * 0.1 - 5;
+        let itemBoxY = this.cameras.main.height * 0.83;
 
-        for (let i = 0; i < 6; i++) {
-            // boxY += this.cameras.main.height * 0.08 + 11;
-            this.upgradeList.get(boxX, boxY, "item-box");
-        }
+        const itemBoxWidth = this.cameras.main.height * 0.08;
+        const itemBoxHeight = this.cameras.main.height * 0.08;
 
-        this.upgradeList.getChildren().forEach((c) => {
-            const boxWidth = this.cameras.main.width * 0.7 + 10;
-            const boxHeight = this.cameras.main.height * 0.08;
+        const zone = this.add
+            .zone(
+                itemBoxX + itemBoxWidth / 2,
+                itemBoxY + itemBoxHeight / 2,
+                itemBoxWidth,
+                itemBoxHeight
+            )
+            .setRectangleDropZone(itemBoxWidth, itemBoxHeight)
+            .setDepth(1700)
+            .setOrigin(0.5);
 
-            const box = c as Phaser.GameObjects.Graphics;
+        this.dropZones.push(zone);
 
-            const zone = this.add
-                .zone(
-                    boxX + boxWidth / 2,
-                    boxY + boxHeight / 2,
-                    boxWidth,
-                    boxHeight
-                )
-                .setRectangleDropZone(boxWidth, boxHeight)
-                .setDepth(1700)
-                .setOrigin(0.5);
+        const box = this.itemBox.get(itemBoxX, itemBoxY);
 
-            this.dropZones.push(zone);
+        box.fillStyle(0xffffff, 1);
+        box.fillRect(itemBoxX, itemBoxY, itemBoxWidth, itemBoxHeight);
+        box.lineStyle(2, 0x000000);
+        box.strokeRect(itemBoxX, itemBoxY, itemBoxWidth, itemBoxHeight);
+        box.setDepth(1500);
 
-            box.fillStyle(0xffffff, 1);
-            box.fillRect(boxX, boxY, boxWidth, boxHeight);
-            box.lineStyle(2, 0x000000);
-            box.strokeRect(boxX, boxY, boxWidth, boxHeight);
-            box.setDepth(1500);
+        this.input.on(
+            "dragenter",
+            (
+                pointer: Phaser.Input.Pointer,
+                gameObject: Phaser.GameObjects.Image,
+                dropZone: Phaser.GameObjects.Graphics
+            ) => {
+                if (this.current === "Main") {
+                    box.fillStyle(0xd3d3d3, 1);
+                    box.fillRect(
+                        dropZone.x - dropZone.input?.hitArea.width / 2,
+                        dropZone.y - dropZone.input?.hitArea.height / 2,
+                        dropZone.input?.hitArea.width,
+                        dropZone.input?.hitArea.height
+                    );
+                    box.lineStyle(2, 0x33cc33);
+                    box.strokeRect(
+                        dropZone.x - dropZone.input?.hitArea.width / 2,
+                        dropZone.y - dropZone.input?.hitArea.height / 2,
+                        dropZone.input?.hitArea.width,
+                        dropZone.input?.hitArea.height
+                    );
+                }
+            }
+        );
 
-            boxY += boxHeight + 11;
+        this.input.on(
+            "dragleave",
+            (
+                pointer: Phaser.Input.Pointer,
+                gameObject: Phaser.GameObjects.Image,
+                dropZone: Phaser.GameObjects.Graphics
+            ) => {
+                if (this.current === "Main") {
+                    box.fillStyle(0xffffff, 1);
+                    box.fillRect(
+                        dropZone.x - dropZone.input?.hitArea.width / 2,
+                        dropZone.y - dropZone.input?.hitArea.height / 2,
+                        dropZone.input?.hitArea.width,
+                        dropZone.input?.hitArea.height
+                    );
+                    box.lineStyle(2, 0x000000);
+                    box.strokeRect(
+                        dropZone.x - dropZone.input?.hitArea.width / 2,
+                        dropZone.y - dropZone.input?.hitArea.height / 2,
+                        dropZone.input?.hitArea.width,
+                        dropZone.input?.hitArea.height
+                    );
+                }
+            }
+        );
 
-            this.input.on(
-                "dragenter",
-                (
-                    pointer: Phaser.Input.Pointer,
-                    gameObject: Phaser.GameObjects.Image,
-                    dropZone: Phaser.GameObjects.Graphics
-                ) => {
-                    if (this.current === "Main") {
-                        box.fillStyle(0xd3d3d3, 1);
-                        box.fillRect(
-                            dropZone.x - dropZone.input?.hitArea.width / 2,
-                            dropZone.y - dropZone.input?.hitArea.height / 2,
-                            dropZone.input?.hitArea.width,
-                            dropZone.input?.hitArea.height
-                        );
-                        box.lineStyle(2, 0x33cc33);
-                        box.strokeRect(
-                            dropZone.x - dropZone.input?.hitArea.width / 2,
-                            dropZone.y - dropZone.input?.hitArea.height / 2,
-                            dropZone.input?.hitArea.width,
-                            dropZone.input?.hitArea.height
+        this.defaultCode = this.add
+            .text(
+                this.cameras.main.width * 0.05 + 90,
+                this.cameras.main.height * 0.86 + 2,
+                "\ttheseus",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000)
+            .setVisible(false);
+
+        this.input.on(
+            "drop",
+            (
+                pointer: Phaser.Input.Pointer,
+                gameObject: Phaser.GameObjects.Image,
+                dropZone: Phaser.GameObjects.Zone
+            ) => {
+                if (this.current === "Main") {
+                    gameObject.x = dropZone.x - itemBoxWidth / 2 + 15;
+                    gameObject.y = dropZone.y;
+
+                    if (this.dropZones.includes(dropZone)) {
+                        this.holdingItem = gameObject;
+                        this.defaultCode.setVisible(true);
+
+                        this.inputField = document.createElement("input");
+                        this.inputField.type = "text";
+                        this.inputField.style.border = "none";
+                        this.inputField.style.outline = "none";
+                        this.inputField.style.width = `${
+                            this.cameras.main.width * 0.5
+                        }px`;
+                        this.inputField.style.height = `${itemBoxHeight - 5}px`;
+                        document.body.appendChild(this.inputField);
+
+                        this.inputField.focus();
+
+                        this.add.dom(
+                            itemBoxX + this.defaultCode.width + 180,
+                            dropZone.y,
+                            this.inputField
                         );
                     }
                 }
-            );
+            }
+        );
 
-            this.input.on(
-                "dragleave",
-                (
-                    pointer: Phaser.Input.Pointer,
-                    gameObject: Phaser.GameObjects.Image,
-                    dropZone: Phaser.GameObjects.Graphics
-                ) => {
-                    if (this.current === "Main") {
-                        box.fillStyle(0xffffff, 1);
-                        box.fillRect(
-                            dropZone.x - dropZone.input?.hitArea.width / 2,
-                            dropZone.y - dropZone.input?.hitArea.height / 2,
-                            dropZone.input?.hitArea.width,
-                            dropZone.input?.hitArea.height
-                        );
-                        box.lineStyle(2, 0x000000);
-                        box.strokeRect(
-                            dropZone.x - dropZone.input?.hitArea.width / 2,
-                            dropZone.y - dropZone.input?.hitArea.height / 2,
-                            dropZone.input?.hitArea.width,
-                            dropZone.input?.hitArea.height
-                        );
-                        // if (!this.inputFields) {
-                        //     return;
-                        // }
-                        const dropZoneIdx = this.dropZones.indexOf(zone);
-                        const currentInput = this.inputFields[dropZoneIdx];
-                        currentInput.style.display = "none";
-                        currentInput.disabled = true;
-                        currentInput.remove();
+        this.input.on(
+            "dragend",
+            (
+                pointer: Phaser.Input.Pointer,
+                gameObject: Phaser.GameObjects.Image,
+                dropped: boolean
+            ) => {
+                if (!dropped) {
+                    if (this.defaultCode.visible) {
+                        this.inputField.style.visibility = "hidden";
+                        this.inputField.disabled = true;
+                        this.inputField.remove();
                     }
+                    this.defaultCode.setVisible(false);
                 }
-            );
-
-            this.input.on(
-                "drop",
-                (
-                    pointer: Phaser.Input.Pointer,
-                    gameObject: Phaser.GameObjects.Image,
-                    dropZone: Phaser.GameObjects.Zone
-                ) => {
-                    if (this.current === "Main") {
-                        gameObject.x = dropZone.x - boxWidth / 2 + 20;
-                        gameObject.y = dropZone.y;
-
-                        if (this.dropZones.includes(dropZone)) {
-                            const inputField = document.createElement("input");
-                            inputField.type = "text";
-                            inputField.style.border = "none";
-                            inputField.style.outline = "none";
-                            inputField.style.width = `${boxWidth - 44}px`;
-                            inputField.style.height = `${boxHeight - 5}px`;
-                            document.body.appendChild(inputField);
-
-                            inputField.focus();
-
-                            this.add.dom(
-                                dropZone.x + 18,
-                                dropZone.y,
-                                inputField
-                            );
-
-                            this.inputFields[this.dropZones.indexOf(zone)] =
-                                inputField;
-                        } else {
-                            this.handleTextInput(
-                                this.inputFields[this.dropZones.indexOf(zone)]
-                            );
-                        }
-                    }
-                }
-            );
-            return true;
-        });
+            }
+        );
 
         // Close button that will return to the game screen
         const close = this.add
@@ -355,14 +399,18 @@ export default class WeaponDesign extends Phaser.Scene {
         });
         close.on("pointerdown", () => {
             this.input.setDefaultCursor("crosshair");
+            this.codeList
+                .getChildren()
+                .forEach((image: Phaser.GameObjects.GameObject) => {
+                    if (image instanceof Phaser.GameObjects.Image) {
+                        this.updatedItemList.push(image.texture.key);
+                    }
+                });
+            this.game.scene.resume(this.previous, {
+                updatedList: this.updatedItemList,
+            });
             this.scene.stop();
-            this.scene.resume(this.previous, { itemList: this.itemList });
         });
-        // this.input.keyboard?.on("keydown-E", () => {
-        //     this.input.setDefaultCursor("crosshair");
-        //     this.scene.stop();
-        //     this.scene.resume(this.previous, { itemList: this.itemList });
-        // });
     }
 
     private handleFileChange() {
@@ -370,12 +418,134 @@ export default class WeaponDesign extends Phaser.Scene {
         this.theseusFile.setVisible(this.current === "Theseus");
         this.swordFile.setVisible(this.current === "Sword");
         this.bowFile.setVisible(this.current === "Bow");
-        this.upgradeList.setVisible(this.current === "Main");
+        this.itemBox.setVisible(this.current === "Main");
+        if (this.current === "Main") {
+            this.defaultCode.setVisible(true);
+            this.inputField.style.visibility = "visible";
+            this.inputField.disabled = false;
+            this.holdingItem.setVisible(true);
+        } else {
+            this.defaultCode.setVisible(false);
+            this.inputField.style.visibility = "hidden";
+            this.inputField.disabled = true;
+            this.holdingItem.setVisible(false);
+        }
+        console.log(this.upgradeList);
     }
 
-    private handleTextInput(textbox: HTMLInputElement) {
-        textbox.remove();
-        textbox.style.display = "none";
-        textbox.disabled = true;
+    update() {
+        const keyEnter = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.ENTER
+        );
+
+        if (keyEnter?.isDown) {
+            console.log("enter key down");
+            if (!this.inputEntered) {
+                this.inputEntered = true;
+
+                const inputValue = this.inputField.value;
+                const inputParts = inputValue.split(".");
+                const itemParts = this.holdingItem.texture.key.split("-");
+
+                console.log(inputParts);
+
+                let isCorrect = false;
+
+                const completeText = this.add
+                    .text(
+                        this.cameras.main.width * 0.1,
+                        this.cameras.main.height * 0.25,
+                        "",
+                        {
+                            fontSize: "12px",
+                            fontFamily: "Academy Engraved LET",
+                            strokeThickness: 3,
+                            stroke: "0xffffff",
+                        }
+                    )
+                    .setOrigin(0)
+                    .setDepth(1000)
+                    .setVisible(false);
+
+                // Check player's input
+                if (itemParts[0] === "sword") {
+                    if (inputParts[1] === "getSword()") {
+                        if (itemParts[1] === "fire") {
+                            if (inputParts[2] === 'setType("fire")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getSword().setType("fire");'
+                                );
+                            }
+                        } else if (itemParts[1] === "ice") {
+                            if (inputParts[2] === 'setType("ice")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getSword().setType("ice");'
+                                );
+                            }
+                        } else if (itemParts[1] === "damage") {
+                            if (inputParts[2] === "incDamage()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getSword().incDamage();"
+                                );
+                            }
+                        } else if (itemParts[1] === "speed") {
+                            if (inputParts[2] === "incSpeed()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getSword().incSpeed();"
+                                );
+                            }
+                        }
+                    }
+                } else if (itemParts[0] === "bow") {
+                    if (inputParts[1] === "getBow()") {
+                        if (itemParts[1] === "poison") {
+                            if (inputParts[2] === 'setType("poison")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getBow().setType("poison");'
+                                );
+                            }
+                        } else if (itemParts[1] === "triple") {
+                            if (inputParts[2] === 'setType("triple")') {
+                                isCorrect = true;
+                                completeText.setText(
+                                    'theseus.getBow().setType("triple");'
+                                );
+                            }
+                        } else if (itemParts[1] === "damage") {
+                            if (inputParts[2] === "incDamage()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getBow().incDamage();"
+                                );
+                            }
+                        } else if (itemParts[1] === "speed") {
+                            if (inputParts[2] === "incSpeed()") {
+                                isCorrect = true;
+                                completeText.setText(
+                                    "theseus.getBow().incSpeed();"
+                                );
+                            }
+                        }
+                    }
+                }
+
+                if (isCorrect) {
+                    this.inputField.remove();
+                    this.defaultCode.setVisible(false);
+                    this.codeList.remove(this.holdingItem);
+                    this.upgradeList.push(this.holdingItem.texture.key);
+                    this.holdingItem.destroy();
+                    completeText.setVisible(true);
+                }
+            }
+        }
+        if (keyEnter?.isUp) {
+            this.inputEntered = false;
+        }
     }
 }
