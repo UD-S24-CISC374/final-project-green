@@ -73,7 +73,7 @@ export default class MazeMap extends Phaser.Scene {
             "This will cause a text box to appear and using the classes provided for Theseus, Bow",
             "and the Sword you must write a line of code that executes the item.",
             "For instance, if you collected a sword with a fire item, you would write in",
-            "the text box - .getSword().getType('fire');",
+            'the text box - .getSword().setType("fire");',
             "Please use double quotes instead of single quotes though.",
         ];
 
