@@ -317,7 +317,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 40) {
+        if (ranNum <= 100) {
             const randomWeight = Math.random() * 100;
             let accumulatedWeight = 0;
             let itemIdx = 0;
@@ -387,5 +387,10 @@ export default class MainScene extends Phaser.Scene {
                 return true;
             });
         }
+    }
+
+    resume(data: { updatedList: string[] }) {
+        console.log("event called");
+        this.itemList = data.updatedList;
     }
 }
