@@ -46,7 +46,7 @@ export default class GameClear extends Phaser.Scene {
                     strokeThickness: 6,
                     stroke: "0xffffff",
                     shadow: {
-                        color: "#FF0000",
+                        color: "#0000FF",
                         fill: true,
                         offsetX: 3,
                         offsetY: 3,
