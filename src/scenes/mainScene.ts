@@ -210,6 +210,13 @@ export default class MainScene extends Phaser.Scene {
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
             sceneEvents.off("enemy-destroyed", this.handleEnemyDropItem, this);
         });
+
+        this.events.on(
+            "resume",
+            (scene: this, data: { updatedList: string[] }) => {
+                this.itemList = data.updatedList;
+            }
+        );
     }
 
     private handleEnterDoor() {
@@ -387,10 +394,5 @@ export default class MainScene extends Phaser.Scene {
                 return true;
             });
         }
-    }
-
-    resume(data: { updatedList: string[] }) {
-        console.log("event called");
-        this.itemList = data.updatedList;
     }
 }

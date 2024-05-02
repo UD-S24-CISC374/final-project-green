@@ -19,6 +19,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
     private previous: string;
     private itemList: string[];
+
     private upgradeList: string[];
     private updatedItemList: string[];
 
@@ -405,18 +406,11 @@ export default class WeaponDesign extends Phaser.Scene {
                         this.updatedItemList.push(image.texture.key);
                     }
                 });
-            this.events.emit("itemList-updated", this.updatedItemList);
-            console.log(this.updatedItemList);
-            this.scene.stop();
-            this.scene.resume(this.previous, {
+            this.game.scene.resume(this.previous, {
                 updatedList: this.updatedItemList,
             });
+            this.scene.stop();
         });
-        // this.input.keyboard?.on("keydown-E", () => {
-        //     this.input.setDefaultCursor("crosshair");
-        //     this.scene.stop();
-        //     this.scene.resume(this.previous, { itemList: this.itemList });
-        // });
     }
 
     private handleFileChange() {
