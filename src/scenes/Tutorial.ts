@@ -114,7 +114,7 @@ export default class Tutorial extends Phaser.Scene {
             doorLayer.setVisible(false);
             this.scene.run("game-ui", {
                 hp: this.theseus?.health,
-                threads: 5,
+                threads: 4,
                 weaponType: this.theseus?.weaponType,
                 swordStatus: this.swordStatus,
                 bowStatus: this.bowStatus,
@@ -314,7 +314,7 @@ export default class Tutorial extends Phaser.Scene {
             //this.scene.run("maze-map", { currentScene: "tutorial" });
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
-                threads: 4,
+                threads: 3,
                 weaponType: this.theseus.weaponType,
                 itemList: [],
                 swordStatus: this.swordStatus,
