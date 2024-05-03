@@ -290,7 +290,7 @@ const createWeaponDesignScreen = (
             scene.cameras.main.width * 0.1 + 63,
             168,
             "public Bow() {\n" +
-                "\t\t\t\tthis.damage = 3 ;\n" +
+                "\t\t\t\tthis.damage = 2 ;\n" +
                 "\t\t\t\tthis.speed = 3 ; \n" +
                 '\t\t\t\tthis.type =  "classic";\n}',
             {

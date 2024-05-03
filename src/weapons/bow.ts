@@ -50,7 +50,7 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
         frame?: string | number
     ) {
         super(scene, x, y, texture, frame);
-        this._damage = 3;
+        this._damage = 2;
         this._speed = 3;
         this._attackType = "classic";
         this.anims.play("bow-idle");
