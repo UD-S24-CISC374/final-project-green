@@ -11,11 +11,12 @@ export default class WeaponDesign extends Phaser.Scene {
     private swordFile: Phaser.GameObjects.Group;
     private bowFile: Phaser.GameObjects.Group;
     private defaultCode: Phaser.GameObjects.Text;
+    private semiColonCode: Phaser.GameObjects.Text;
 
     private codeList: Phaser.GameObjects.Group;
     private itemBox: Phaser.GameObjects.Group;
 
-    private holdingItem: Phaser.GameObjects.Image;
+    private holdingItem: Phaser.GameObjects.Image | undefined;
 
     private previous: string;
     private itemList: string[];
@@ -148,17 +149,30 @@ export default class WeaponDesign extends Phaser.Scene {
 
             this.codeList.add(itemImage);
 
+            const itemTag = this.add
+                .text(x, y + 15, itemName, {
+                    fontSize: "10px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                })
+                .setOrigin(0.5)
+                .setDepth(2000)
+                .setVisible(false);
+
             itemImage.setInteractive();
             this.input.setDraggable(itemImage);
 
             itemImage.on("pointerover", () => {
                 itemImage.setScale(1.6);
                 this.input.setDefaultCursor("pointer");
+                itemTag.setVisible(true);
             });
 
             itemImage.on("pointerout", () => {
                 itemImage.setScale(1.5);
                 this.input.setDefaultCursor("default");
+                itemTag.setVisible(false);
             });
 
             // Drag and Drop for items
@@ -186,6 +200,8 @@ export default class WeaponDesign extends Phaser.Scene {
                 ) => {
                     gameObject.x = dragX;
                     gameObject.y = dragY;
+                    itemTag.x = gameObject.x;
+                    itemTag.y = gameObject.y + 15;
                 }
             );
 
@@ -200,6 +216,8 @@ export default class WeaponDesign extends Phaser.Scene {
                         if (initialPosition) {
                             gameObject.x = initialPosition.x;
                             gameObject.y = initialPosition.y;
+                            itemTag.x = gameObject.x;
+                            itemTag.y = gameObject.y + 15;
                         }
                     }
                 }
@@ -347,6 +365,22 @@ export default class WeaponDesign extends Phaser.Scene {
             .setDepth(1000)
             .setVisible(false);
 
+        this.semiColonCode = this.add
+            .text(
+                this.cameras.main.width * 0.8,
+                this.cameras.main.height * 0.86 + 2,
+                ";",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000)
+            .setVisible(false);
+
         this.input.on(
             "drop",
             (
@@ -361,6 +395,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     if (this.dropZones.includes(dropZone)) {
                         this.holdingItem = gameObject;
                         this.defaultCode.setVisible(true);
+                        this.semiColonCode.setVisible(true);
 
                         this.inputField = document.createElement("input");
                         this.inputField.type = "text";
@@ -398,6 +433,8 @@ export default class WeaponDesign extends Phaser.Scene {
                         this.inputField.remove();
                     }
                     this.defaultCode.setVisible(false);
+                    this.semiColonCode.setVisible(false);
+                    this.holdingItem = undefined;
                 }
             }
         );
@@ -448,15 +485,21 @@ export default class WeaponDesign extends Phaser.Scene {
         this.bowFile.setVisible(this.current === "Bow");
         this.itemBox.setVisible(this.current === "Main");
         if (this.current === "Main") {
-            this.defaultCode.setVisible(true);
-            this.inputField.style.visibility = "visible";
-            this.inputField.disabled = false;
-            this.holdingItem.setVisible(true);
+            if (this.holdingItem != undefined) {
+                this.defaultCode.setVisible(true);
+                this.semiColonCode.setVisible(true);
+                this.inputField.style.visibility = "visible";
+                this.inputField.disabled = false;
+                this.holdingItem.setVisible(true);
+            }
         } else {
-            this.defaultCode.setVisible(false);
-            this.inputField.style.visibility = "hidden";
-            this.inputField.disabled = true;
-            this.holdingItem.setVisible(false);
+            if (this.holdingItem != undefined) {
+                this.defaultCode.setVisible(false);
+                this.semiColonCode.setVisible(false);
+                this.inputField.style.visibility = "hidden";
+                this.inputField.disabled = true;
+                this.holdingItem.setVisible(false);
+            }
         }
         console.log(this.upgradeList);
     }
@@ -467,7 +510,7 @@ export default class WeaponDesign extends Phaser.Scene {
         );
 
         if (keyEnter?.isDown) {
-            if (!this.inputEntered) {
+            if (!this.inputEntered && this.holdingItem != undefined) {
                 this.inputEntered = true;
 
                 const inputValue = this.inputField.value;
@@ -496,28 +539,28 @@ export default class WeaponDesign extends Phaser.Scene {
                 if (itemParts[0] === "sword") {
                     if (inputParts[1] === "getSword()") {
                         if (itemParts[1] === "fire") {
-                            if (inputParts[2] === 'setType("fire");') {
+                            if (inputParts[2] === 'setType("fire")') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getSword().setType("fire");'
                                 );
                             }
                         } else if (itemParts[1] === "ice") {
-                            if (inputParts[2] === 'setType("ice");') {
+                            if (inputParts[2] === 'setType("ice")') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getSword().setType("ice");'
                                 );
                             }
                         } else if (itemParts[1] === "damage") {
-                            if (inputParts[2] === "incDamage();") {
+                            if (inputParts[2] === "incDamage()") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getSword().incDamage();"
                                 );
                             }
                         } else if (itemParts[1] === "speed") {
-                            if (inputParts[2] === "incSpeed();") {
+                            if (inputParts[2] === "incSpeed()") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getSword().incSpeed();"
@@ -528,28 +571,28 @@ export default class WeaponDesign extends Phaser.Scene {
                 } else if (itemParts[0] === "bow") {
                     if (inputParts[1] === "getBow()") {
                         if (itemParts[1] === "poison") {
-                            if (inputParts[2] === 'setType("poison");') {
+                            if (inputParts[2] === 'setType("poison")') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getBow().setType("poison");'
                                 );
                             }
                         } else if (itemParts[1] === "triple") {
-                            if (inputParts[2] === 'setType("triple");') {
+                            if (inputParts[2] === 'setType("triple")') {
                                 isCorrect = true;
                                 completeText.setText(
                                     'theseus.getBow().setType("triple");'
                                 );
                             }
                         } else if (itemParts[1] === "damage") {
-                            if (inputParts[2] === "incDamage();") {
+                            if (inputParts[2] === "incDamage()") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getBow().incDamage();"
                                 );
                             }
                         } else if (itemParts[1] === "speed") {
-                            if (inputParts[2] === "incSpeed();") {
+                            if (inputParts[2] === "incSpeed()") {
                                 isCorrect = true;
                                 completeText.setText(
                                     "theseus.getBow().incSpeed();"
@@ -562,6 +605,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 if (isCorrect) {
                     this.inputField.remove();
                     this.defaultCode.setVisible(false);
+                    this.semiColonCode.setVisible(false);
                     this.codeList.remove(this.holdingItem);
                     this.upgradeList.push(this.holdingItem.texture.key);
                     this.holdingItem.destroy();
