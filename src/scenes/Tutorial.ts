@@ -54,7 +54,6 @@ export default class Tutorial extends Phaser.Scene {
             "Let's return to main file and write the code.\nDon't forget you need a dot before to use code.",
             "If you press ENTER key.... item should be successfully used!",
             "If it did not, try going back the dialogues and write it again",
-            "And here is the list of the items you can find. You can also always look at it using I key.",
             "It seems you're ready... Good Luck Theseus!",
         ];
     }
