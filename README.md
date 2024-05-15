@@ -46,6 +46,8 @@ Link to our [egdd](docs/egdd.md)
 - https://opengameart.org/content/skeletons-rework
 - https://despairparty.itch.io/rpgmaker-spriteface
 - https://pogutatar.itch.io/pixel-button-pack-by-pogutatar
+- https://xzany.itch.io/flying-demon-2d-pixel-art
+- https://lilwillydesigns.itch.io/dark-enemies-pack
 - Music by OB-LIX:
   - https://pixabay.com/music/suspense-the-spell-dark-magic-background-music-ob-lix-8009/
 
