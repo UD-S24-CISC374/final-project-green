@@ -37,17 +37,15 @@ Link to our [egdd](docs/egdd.md)
 
 # Credits
 
-https://quintino-pixels.itch.io/cc-10-top-down-dungeon-tileset
-https://opengameart.org/content/legend-of-faune
-https://opengameart.org/content/sword-normal
-https://opengameart.org/content/weapon-slash-effect
-https://opengameart.org/content/animated-fantasy-bows
-https://jitsukoan.itch.io/minotaur
-https://opengameart.org/content/skeletons-rework
-
-https://despairparty.itch.io/rpgmaker-spriteface
-https://pogutatar.itch.io/pixel-button-pack-by-pogutatar
-
-Music by OB-LIX
-https://pixabay.com/music/suspense-the-spell-dark-magic-background-music-ob-lix-8009/
+- https://quintino-pixels.itch.io/cc-10-top-down-dungeon-tileset 
+- https://opengameart.org/content/legend-of-faune
+- https://opengameart.org/content/sword-normal
+- https://opengameart.org/content/weapon-slash-effect
+- https://opengameart.org/content/animated-fantasy-bows
+- https://jitsukoan.itch.io/minotaur
+- https://opengameart.org/content/skeletons-rework
+- https://despairparty.itch.io/rpgmaker-spriteface
+- https://pogutatar.itch.io/pixel-button-pack-by-pogutatar
+- Music by OB-LIX:
+  - https://pixabay.com/music/suspense-the-spell-dark-magic-background-music-ob-lix-8009/
 
