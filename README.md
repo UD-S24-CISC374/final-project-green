@@ -33,7 +33,7 @@ https://github.com/UD-S24-CISC374/final-project-green/assets/131828619/7118c93c-
 
 # Educational Game Design Document
 
-Link to our [egdd](Educational Game Design Document)
+Link to our [egdd](docs/egdd.md)
 
 # Credits
 
