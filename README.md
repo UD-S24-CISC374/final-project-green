@@ -25,7 +25,7 @@ Once the game loads in the browser, you must click on "Enter the Maze" to begin 
 
 # Gameplay Video
 
-TEXT GOES HERE
+[<image src="https://www.youtube.com/embed/BmRTUyg0Xl8?si=_FKv6mxN5uUVvvMM" width = "50%">] (https://www.youtube.com/watch?v=BmRTUyg0Xl8 "Infamia di Creti Gameplay")
 
 # Educational Game Design Document
 
