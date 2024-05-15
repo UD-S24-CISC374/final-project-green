@@ -21,7 +21,7 @@ Once the game loads in the browser, you must click on "Enter the Maze" to begin 
 
 # Screenshot
 
-![Screenshot of from the first room in Infamia di Creti](/docs/large.png)
+![Screenshot of the first room in Infamia di Creti](/docs/large.png)
 
 # Gameplay Video
 
