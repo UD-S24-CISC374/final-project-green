@@ -21,7 +21,7 @@ Once the game loads in the browser, you must click on "Enter the Maze" to begin 
 
 # Screenshot
 
-TEXT GOES HERE
+!(/docs/large.png)
 
 # Gameplay Video
 
