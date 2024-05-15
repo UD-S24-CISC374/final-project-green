@@ -2,7 +2,7 @@
 
 ## Elevator Pitch
 
-You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Minotaur. You have limited amount of string to reach the Minotaur. So you need to choose the best armors that you earned by traveling the maze.
+You are Theseus, the son of Poseidon. You must travel to the center of the maze to defeat the Minotaur and save the people of Crete!
 
 ## Influences (Brief)
 
@@ -17,8 +17,8 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 
 - Fight with enemies by moving Theseus using keyboard and mouse.
 - Whenever you defeat all the enemies in the room, you can move to the other rooms.
-- Collect the items by defeating enemies or purchasing from the merchant, and join them to make better items.
-- In limited amount of string, you should explore the maze and reach the center of the maze.
+- Collect upgrades and weapon types by defeating enemies, and use them to upgrade your weapon or change your weapon type.
+- Progress through all three rooms to reach the center of the maze.
 - When you loss all your health, it displays a game over message.
 - After you defeat the boss, Minotaur, it displays a victory message showing that Theseus became a hero.
 
@@ -27,7 +27,7 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 ## Learning Domains
 
 - Introductory Java Programming
-  - Using getters and setters of class
+  - Using the getters and setters of a class.
 
 ## Target Audiences
 
@@ -51,12 +51,12 @@ You are Theseus, the son of Poseidon, and you entered the Crete to defeat the Mi
 Give assessments before and after gameplay.
 
 - Prior to the game, players need to be able to define the concept of a class. 
-- Prior to the game, players need to be able to explain the concept of a getters and setters. 
+- Prior to the game, players need to be able to explain the concept of a getters and setters.
 
 ## Assessment Measures
 
 - Using given name of class and information of the fields, define a class.
-- Given instruction explaining which to be set to new value, use getters and setters to change the value in other class.
+- Given classes, use getters and setters to change the value in a class.
 
 # What sets this project apart?
 
@@ -93,39 +93,31 @@ Give assessments before and after gameplay.
 - If the player press the shift button, they can change their weapon.
 - A player has a limited amount of lives.
   - If the player collides with the enemies or hit by the enemies, then the player's lives decreases.
-- There is a limit on the amount of items/codes a player can hold at one time.
-- A player can buy the items from the merchant using the coin.
-  - No limit on the amount of coins the player can have.
-- There is a map that shows what part of the maze the player is in and can enter.
-  - The boss room is always displayed on the map.
 - There is display that shows the amount of string a player has.
 
 # Objects/Entities
 
 - There is an avatar to represent Thesues.
+- There is an avatar to represent Ariadne.
 - There is an avatar to represent the Minotaur and other enemies.
 - There are different weapons Theseus can use.
 - A health bar for Thesueus, the Minotuar, and other enemies.
-- There is a map to represent where Theseus can go in the maze.
 - There is a box that shows what weapons Thesueus is using.
 - There is some indication of how much string Theseus has. 
 
 ## Core Gameplay Mechanics (Detailed)
 
-- Defeating enemies: The player must battle enemies and defeat them using methods and classes. Once an enemies health bar reaches zero they are defeated. The player can gain tokens to get string and weapons
-by defeating enemies.
+- Defeating enemies: The player must battle enemies and upgrade/change their weapon using methods and classes. Once an enemies health bar reaches zero they are defeated.
 - Exploring the Maze: The player must move from the outer ring of rooms to the center, until they reach the Minotaur. The player moves is able to move between rooms only once they have cleared the room they are in by defeating all the enemies. Enetering a new room reduces the amount of string the player has.
 - Gaining items: Player is able to collect code by exploring rooms.
-- Gaining coins: Player is able to gain coins by defeating enemies and they can use this purchase weapons and string. 
 - Losing all your health: Once Theseus loses all his health, the game is over and a "Game Over" message is displayed.
 - Defeating the Minotuar: Theseus must battle the Minotaur similar to other enemies and once the Minotaur has no more health, the player wins the game. A "You are the hero!" message is displayed. 
 
 ## Feedback
 
-- Defeating an enemy will give you coins, positive feedback for battling an enemy.
+- Defeating an enemy will give you codes to upgrade/change weapon, positive feedback for battling an enemy.
 - Each time the player enters and clears a room, it reduces the amount of string they have.
 - The state of Theseues health bar reflects how successful he has been in battling enemies. 
-- When you enter the room, the map will change the color of the room brighter to distinguish them.
 - When you defeat the minotaur and win the game, a message will be displayed on the screen. 
 - When you lose, a message will be displayed on the screen. 
 
@@ -162,7 +154,6 @@ are in the myth themselves.
   - Ariadne: cartoon, pixalated sprite. Happy expression.
   - Minotaur: cartoon, pixalated sprite. Mean expression.
   - Enemies: cartoon, pixalated sprite. Mean expression.
-  - Merchant: cartoon, pixalated sprite. Happy expression.
 
 - Textures:
 - Pixelated texture. 
@@ -179,7 +170,6 @@ are in the myth themselves.
 
 
 - Sound List (SFX)
-  - Collecting coin: similar to https://www.youtube.com/watch?v=xkax6ORa6z0
   - Striking an enemy: Will depend on the weapons but a sword might produce sound effects similar to this - https://www.youtube.com/watch?v=EgRvVq8mStE
   - Receiving a hit might vary depending on the enemy but recieving a hit might sound like if the enemy has claws https://www.youtube.com/watch?v=MH6M21jtX_k
 
