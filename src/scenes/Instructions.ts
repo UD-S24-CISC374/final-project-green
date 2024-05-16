@@ -89,9 +89,11 @@ export default class MazeMap extends Phaser.Scene {
         this.nextButton.on("pointerdown", this.handleNextText, this);
 
         this.nextButton.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             this.nextButton.setScale(1.2);
         });
         this.nextButton.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
             this.nextButton.setScale();
         });
 
@@ -109,10 +111,12 @@ export default class MazeMap extends Phaser.Scene {
         this.prevButton.on("pointerdown", this.handlePrevText, this);
 
         this.prevButton.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             this.prevButton.setScale(1.2);
             this.prevButton.scaleX = -1;
         });
         this.prevButton.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
             this.prevButton.setScale();
             this.prevButton.scaleX = -1;
         });
