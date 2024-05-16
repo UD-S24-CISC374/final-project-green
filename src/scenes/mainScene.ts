@@ -1,9 +1,13 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import { createRedEyesSkeletonAnims } from "../anims/enemyAnims";
+import { createFlyingBatAnims } from "../anims/enemyAnims";
 import { createTheseusAnims } from "../anims/theseusAnims";
 import { createWeaponsAnims } from "../anims/weaponsAnims";
+import { createBlobMonsterAnims } from "../anims/enemyAnims";
 import RedEyesSkeleton from "../enemies/redEyesSkeleton";
+import flyingBats from "../enemies/flyingBats";
+import BlobMonster from "../enemies/blobMonster";
 import "../player/theseus";
 import Theseus from "../player/theseus";
 import { sceneEvents } from "../events/eventsCenter";
@@ -22,6 +26,8 @@ export default class MainScene extends Phaser.Scene {
     private doorOpened: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
+    private flyingBat?: Phaser.Physics.Arcade.Group;
+    private blobMonster?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
     private hp: number;
     private threads: number;
@@ -74,6 +80,8 @@ export default class MainScene extends Phaser.Scene {
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
         createWeaponsAnims(this.anims);
+        createFlyingBatAnims(this.anims);
+        createBlobMonsterAnims(this.anims);
 
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
@@ -148,6 +156,14 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
+        this.flyingBat = this.physics.add.group({
+            classType: flyingBats,
+        });
+
+        this.blobMonster = this.physics.add.group({
+            classType: BlobMonster,
+        });
+
         let maxNum = this.isEasyMode ? 5 : 6;
 
         for (let i = 0; i < maxNum - this.threads; i++) {
@@ -157,7 +173,25 @@ export default class MainScene extends Phaser.Scene {
                 posX = Phaser.Math.Between(24, 488);
                 posY = Phaser.Math.Between(76, 355);
             }
-            this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
+            // console.log("Error here");
+            // this.flyingBat.get(posX, posY, "flying_bat_flapping");
+            if (this.isEasyMode) {
+                if (this.threads === 3) {
+                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
+                } else if (this.threads === 2) {
+                    this.flyingBat.get(posX, posY, "flying_bat_flapping");
+                } else if (this.threads === 1) {
+                    this.blobMonster.get(posX, posY, "blob_monster_moving");
+                }
+            } else {
+                if (this.threads === 3) {
+                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
+                } else if (this.threads === 2) {
+                    this.flyingBat.get(posX, posY, "flying_bat_flapping");
+                } else if (this.threads === 1) {
+                    this.blobMonster.get(posX, posY, "blob_monster_moving");
+                }
+            }
         }
 
         this.redEyesSkeletons.children.iterate((c) => {
@@ -174,6 +208,34 @@ export default class MainScene extends Phaser.Scene {
             return true;
         });
 
+        this.flyingBat.children.iterate((c) => {
+            const FlyingBat = c as flyingBats;
+            FlyingBat.setTarget(this.theseus!);
+            if (this.isEasyMode) {
+                FlyingBat.updateStatus(40, 15);
+            }
+            FlyingBat.setEasyMode = this.isEasyMode;
+            FlyingBat.body?.setSize(
+                FlyingBat.width * 0.6,
+                FlyingBat.height * 0.8
+            );
+            return true;
+        });
+
+        this.blobMonster.children.iterate((c) => {
+            const BlobMonster = c as BlobMonster;
+            BlobMonster.setTarget(this.theseus!);
+            if (this.isEasyMode) {
+                BlobMonster.updateStatus(40, 15);
+            }
+            BlobMonster.setEasyMode = this.isEasyMode;
+            BlobMonster.body?.setSize(
+                BlobMonster.width * 0.6,
+                BlobMonster.height * 0.8
+            );
+            return true;
+        });
+
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, this.doorLayer);
 
@@ -182,8 +244,34 @@ export default class MainScene extends Phaser.Scene {
 
         this.physics.add.collider(this.redEyesSkeletons, this.redEyesSkeletons);
 
+        this.physics.add.collider(this.flyingBat, wallsLayer);
+        this.physics.add.collider(this.flyingBat, this.doorLayer);
+
+        this.physics.add.collider(this.flyingBat, this.flyingBat);
+
+        this.physics.add.collider(this.blobMonster, wallsLayer);
+        this.physics.add.collider(this.blobMonster, this.doorLayer);
+
+        this.physics.add.collider(this.blobMonster, this.blobMonster);
+
         this.playerEnemyCollider = this.physics.add.collider(
             this.redEyesSkeletons,
+            this.theseus,
+            this.handlePlayerEnemyCollision,
+            undefined,
+            this
+        );
+
+        this.playerEnemyCollider = this.physics.add.collider(
+            this.flyingBat,
+            this.theseus,
+            this.handlePlayerEnemyCollision,
+            undefined,
+            this
+        );
+
+        this.playerEnemyCollider = this.physics.add.collider(
+            this.blobMonster,
             this.theseus,
             this.handlePlayerEnemyCollision,
             undefined,
@@ -214,12 +302,72 @@ export default class MainScene extends Phaser.Scene {
         );
 
         this.events.on(
+            "swordSlashCreated",
+            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.flyingBat) {
+                    this.physics.add.collider(
+                        swordSlash,
+                        this.flyingBat,
+                        this.handleEnemySwordAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.on(
+            "swordSlashCreated",
+            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.blobMonster) {
+                    this.physics.add.collider(
+                        swordSlash,
+                        this.blobMonster,
+                        this.handleEnemySwordAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.on(
             "arrowCreated",
             (arrow: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
                 if (this.redEyesSkeletons) {
                     this.physics.add.collider(
                         arrow,
                         this.redEyesSkeletons,
+                        this.handleEnemyBowAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.on(
+            "arrowCreated",
+            (arrow: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.flyingBat) {
+                    this.physics.add.collider(
+                        arrow,
+                        this.flyingBat,
+                        this.handleEnemyBowAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.on(
+            "arrowCreated",
+            (arrow: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.blobMonster) {
+                    this.physics.add.collider(
+                        arrow,
+                        this.blobMonster,
                         this.handleEnemyBowAttacked,
                         undefined,
                         this
@@ -379,6 +527,74 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
+    private handlePlayerEnemyCollisionBat(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const flyingBats = obj2 as flyingBats;
+
+        const dx = this.theseus!.x - flyingBats.x;
+        const dy = this.theseus!.y - flyingBats.y;
+
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(100);
+
+        this.theseus?.handleDamage(dir);
+
+        sceneEvents.emit("player-health-changed", this.theseus?.health);
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off(
+                "player-health-changed",
+                this.handlePlayerEnemyCollision,
+                this
+            );
+        });
+
+        if (this.theseus?.gameOVer) {
+            this.time.delayedCall(1000, () => {
+                this.scene.start("GameOver");
+            });
+        }
+    }
+
+    private handlePlayerEnemyCollisionBlobMonster(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const blobMonster = obj2 as BlobMonster;
+
+        const dx = this.theseus!.x - blobMonster.x;
+        const dy = this.theseus!.y - blobMonster.y;
+
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(100);
+
+        this.theseus?.handleDamage(dir);
+
+        sceneEvents.emit("player-health-changed", this.theseus?.health);
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off(
+                "player-health-changed",
+                this.handlePlayerEnemyCollision,
+                this
+            );
+        });
+
+        if (this.theseus?.gameOVer) {
+            this.time.delayedCall(1000, () => {
+                this.scene.start("GameOver");
+            });
+        }
+    }
+
     private handleEnemySwordAttacked(
         obj1:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -400,6 +616,48 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
+    private handleEnemySwordAttackedBat(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const flyingBats = obj2 as flyingBats;
+        const swordSlash =
+            obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("swordSlashHit", swordSlash);
+
+        if (this.theseus?.getWeapon) {
+            flyingBats.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
+        }
+    }
+
+    private handleEnemySwordAttackedBlobMonster(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const blobMonster = obj2 as BlobMonster;
+        const swordSlash =
+            obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("swordSlashHit", swordSlash);
+
+        if (this.theseus?.getWeapon) {
+            blobMonster.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
+        }
+    }
+
     private handleEnemyBowAttacked(
         obj1:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -414,6 +672,46 @@ export default class MainScene extends Phaser.Scene {
 
         if (this.theseus?.getWeapon) {
             redEyesSkeleton.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
+        }
+    }
+
+    private handleEnemyBowAttackedBat(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const flyingBats = obj2 as flyingBats;
+        const arrow = obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("arrowHit", arrow);
+
+        if (this.theseus?.getWeapon) {
+            flyingBats.handleDamage(
+                this.theseus.getWeapon.damage,
+                this.theseus.getWeapon.attackType
+            );
+        }
+    }
+
+    private handleEnemyBowAttackedBlobMonster(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const blobMonster = obj2 as BlobMonster;
+        const arrow = obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("arrowHit", arrow);
+
+        if (this.theseus?.getWeapon) {
+            blobMonster.handleDamage(
                 this.theseus.getWeapon.damage,
                 this.theseus.getWeapon.attackType
             );
@@ -551,6 +849,21 @@ export default class MainScene extends Phaser.Scene {
             this.redEyesSkeletons.children.iterate((c) => {
                 const redEyesSkeleton = c as RedEyesSkeleton;
                 redEyesSkeleton.update();
+                return true;
+            });
+        }
+
+        if (this.flyingBat) {
+            this.flyingBat.children.iterate((c) => {
+                const flyingBats = c as flyingBats;
+                flyingBats.update();
+                return true;
+            });
+        }
+        if (this.blobMonster) {
+            this.blobMonster.children.iterate((c) => {
+                const blobMonster = c as BlobMonster;
+                blobMonster.update();
                 return true;
             });
         }

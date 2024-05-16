@@ -1,0 +1,187 @@
+{
+	"textures": [
+		{
+			"image": "texture",
+			"format": "RGBA8888",
+			"size": {
+				"w": 175,
+				"h": 20
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "walk07.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 12,
+						"w": 22,
+						"h": 20
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 20
+					}
+				},
+				{
+					"filename": "walk08.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 12,
+						"w": 22,
+						"h": 20
+					},
+					"frame": {
+						"x": 22,
+						"y": 0,
+						"w": 22,
+						"h": 20
+					}
+				},
+				{
+					"filename": "walk01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 13,
+						"w": 22,
+						"h": 19
+					},
+					"frame": {
+						"x": 44,
+						"y": 0,
+						"w": 22,
+						"h": 19
+					}
+				},
+				{
+					"filename": "walk02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 13,
+						"w": 22,
+						"h": 19
+					},
+					"frame": {
+						"x": 66,
+						"y": 0,
+						"w": 22,
+						"h": 19
+					}
+				},
+				{
+					"filename": "walk03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 13,
+						"w": 22,
+						"h": 19
+					},
+					"frame": {
+						"x": 88,
+						"y": 0,
+						"w": 22,
+						"h": 19
+					}
+				},
+				{
+					"filename": "walk04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 13,
+						"w": 22,
+						"h": 19
+					},
+					"frame": {
+						"x": 110,
+						"y": 0,
+						"w": 22,
+						"h": 19
+					}
+				},
+				{
+					"filename": "walk05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 13,
+						"w": 22,
+						"h": 19
+					},
+					"frame": {
+						"x": 132,
+						"y": 0,
+						"w": 22,
+						"h": 19
+					}
+				},
+				{
+					"filename": "walk06.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 12,
+						"w": 21,
+						"h": 20
+					},
+					"frame": {
+						"x": 154,
+						"y": 0,
+						"w": 21,
+						"h": 20
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}

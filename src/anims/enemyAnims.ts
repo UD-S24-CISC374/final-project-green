@@ -57,4 +57,34 @@ const createRedEyesSkeletonAnims = (
     });
 };
 
+const createFlyingBatAnims = (anims: Phaser.Animations.AnimationManager) => {
+    anims.create({
+        key: "flying_bat_flapping",
+        frames: anims.generateFrameNames("flying_bat", {
+            start: 1,
+            end: 7,
+            prefix: "fly0",
+            suffix: ".png",
+        }),
+        frameRate: 10,
+        repeat: -1,
+    });
+};
+
+const createBlobMonsterAnims = (anims: Phaser.Animations.AnimationManager) => {
+    anims.create({
+        key: "blob_monster_moving",
+        frames: anims.generateFrameNames("blob_monster", {
+            start: 1,
+            end: 8,
+            prefix: "walk0",
+            suffix: ".png",
+        }),
+        frameRate: 10,
+        repeat: -1,
+    });
+};
+
+export { createFlyingBatAnims };
 export { createRedEyesSkeletonAnims };
+export { createBlobMonsterAnims };
