@@ -26,6 +26,7 @@ export default class MinotaurRoom extends Phaser.Scene {
     private itemList: string[];
     private updateCodeList: string[] | undefined;
     private upgrades = 0;
+    private isEasyMode: boolean;
     private swordStatus: string[];
     private bowStatus: string[];
 
@@ -54,6 +55,7 @@ export default class MinotaurRoom extends Phaser.Scene {
         updateCodeList: string[];
         swordStatus: string[];
         bowStatus: string[];
+        isEasyMode: boolean;
     }) {
         this.hp = data.hp;
         this.threads = data.threads;
@@ -62,6 +64,7 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.updateCodeList = data.updateCodeList;
         this.swordStatus = data.swordStatus;
         this.bowStatus = data.bowStatus;
+        this.isEasyMode = data.isEasyMode;
     }
 
     create() {
@@ -131,6 +134,10 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.minotaur.children.iterate((c) => {
             const minotaur = c as Minotaur;
             minotaur.setTarget(this.theseus!);
+            minotaur.setEasyMode = this.isEasyMode;
+            if (this.isEasyMode) {
+                minotaur.updateStatus(50, 300);
+            }
             minotaur.body?.setSize(minotaur.width * 0.3, minotaur.height * 0.7);
             minotaur.setOrigin(0.5);
             return true;

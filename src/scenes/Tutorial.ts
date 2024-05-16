@@ -21,6 +21,7 @@ export default class Tutorial extends Phaser.Scene {
     private itemList: string[];
     private updateCodeList: string[] | undefined;
     private upgrades = 0;
+    private isEasyMode: boolean;
 
     private ariadne: Phaser.GameObjects.Image;
     private textBox: Phaser.GameObjects.Rectangle;
@@ -56,6 +57,10 @@ export default class Tutorial extends Phaser.Scene {
             "If it did not, try going back the dialogues and write it again",
             "It seems you're ready... Good Luck Theseus!",
         ];
+    }
+
+    init(data: { isEasyMode: boolean }) {
+        this.isEasyMode = data.isEasyMode;
     }
 
     create() {
@@ -340,10 +345,18 @@ export default class Tutorial extends Phaser.Scene {
             }
         );
 
-        // this.input.keyboard?.on("keydown-I", () => {
-        //     this.scene.pause();
-        //     this.scene.run("instructions", { currentScene: "tutorial" });
-        // });
+        this.events.on("start", () => {
+            this.swordStatus = [];
+            this.bowStatus = [];
+            this.swordStatus.push("5");
+            this.swordStatus.push("2");
+            this.swordStatus.push("classic");
+            this.bowStatus.push("2");
+            this.bowStatus.push("3");
+            this.bowStatus.push("classic");
+            this.itemList = [];
+            this.updateCodeList = [];
+        });
 
         this.add
             .image(
@@ -439,6 +452,7 @@ export default class Tutorial extends Phaser.Scene {
                 updateCodeList: this.updateCodeList,
                 swordStatus: this.swordStatus,
                 bowStatus: this.bowStatus,
+                isEasyMode: this.isEasyMode,
             });
         }
     }

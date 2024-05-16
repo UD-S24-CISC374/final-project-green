@@ -27,11 +27,16 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
     private _health = 20;
     private maxHealth = 20;
     private speed = 50;
+    private isEasyMode: boolean;
 
     private healthBar: Phaser.GameObjects.Graphics;
 
     get health() {
         return this._health;
+    }
+
+    set setEasyMode(isEasyMode: boolean) {
+        this.isEasyMode = isEasyMode;
     }
 
     constructor(
@@ -48,6 +53,13 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
 
     setTarget(target: Phaser.Physics.Arcade.Sprite) {
         this.target = target;
+    }
+
+    updateStatus(speed: number, maxHealth: number) {
+        this.speed = speed;
+        this._health = maxHealth;
+        this.maxHealth = maxHealth;
+        this.updateHealthBarSize();
     }
 
     handleDamage(damage: number, attackType: string) {
@@ -83,7 +95,8 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         if (attackType === "ice") {
             this.currentState = DamageState.ICE;
             this.effectTime = 0;
-            this.speed = 40;
+            this.speed = this.isEasyMode ? 30 : 40;
+
             this.setTint(0x0000ff);
         } else if (attackType === "fire") {
             this.currentState = DamageState.FIRE;
@@ -170,7 +183,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
                 }
                 if (this.effectTime >= 2000) {
                     this.currentState = DamageState.IDLE;
-                    this.speed = 50;
+                    this.speed = this.isEasyMode ? 40 : 50;
                     this.setTint(0xffffff);
                     this.effectTime = 0;
                 }
