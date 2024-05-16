@@ -166,6 +166,8 @@ export default class WeaponDesign extends Phaser.Scene {
             itemImage.on("pointerover", () => {
                 itemImage.setScale(1.6);
                 this.input.setDefaultCursor("pointer");
+                itemTag.x = itemImage.x;
+                itemTag.y = itemImage.y + 15;
                 itemTag.setVisible(true);
             });
 

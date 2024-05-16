@@ -148,7 +148,7 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
-        let maxNum = this.isEasyMode ? 6 : 7;
+        let maxNum = this.isEasyMode ? 5 : 6;
 
         for (let i = 0; i < maxNum - this.threads; i++) {
             let posX = Phaser.Math.Between(24, 488);
@@ -233,7 +233,7 @@ export default class MainScene extends Phaser.Scene {
                 return;
             }
             this.theseus.health = this.hp;
-            this.threads = 5;
+            this.threads = 3;
         });
 
         this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
@@ -319,7 +319,7 @@ export default class MainScene extends Phaser.Scene {
                 pushComplete = true;
             }
 
-            if (this.threads > 2) {
+            if (this.threads > 1) {
                 this.scene.start("mainScene", {
                     hp: this.theseus.health,
                     threads: this.threads - 1,

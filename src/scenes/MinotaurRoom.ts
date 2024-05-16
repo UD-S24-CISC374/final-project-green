@@ -194,7 +194,7 @@ export default class MinotaurRoom extends Phaser.Scene {
                 return;
             }
             this.theseus.health = this.hp;
-            this.threads = 5;
+            this.threads = 3;
         });
 
         this.input.keyboard?.on("keydown-ESC", () => {
