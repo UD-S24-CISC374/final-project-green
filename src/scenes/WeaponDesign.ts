@@ -523,6 +523,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 const inputValue = this.inputField.value;
                 const inputParts = inputValue.split(".");
                 const itemParts = this.holdingItem.texture.key.split("-");
+                console.log(inputParts);
 
                 let isCorrect = false;
 
@@ -542,6 +543,20 @@ export default class WeaponDesign extends Phaser.Scene {
                     .setDepth(1000)
                     .setVisible(false);
 
+                //error message for feedback
+                const error = this.add
+                    .text(
+                        this.cameras.main.width * 0.3,
+                        this.cameras.main.height * 0.91,
+                        "",
+                        {
+                            fontSize: "10px",
+                            color: "#f00",
+                        }
+                    )
+                    .setDepth(1000)
+                    .setVisible(false);
+
                 // Check player's input
                 if (itemParts[0] === "sword") {
                     if (inputParts[1] === "getSword()") {
@@ -551,6 +566,10 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     'theseus.getSword().setType("fire");'
                                 );
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "ice") {
                             if (inputParts[2] === 'setType("ice")') {
@@ -558,6 +577,10 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     'theseus.getSword().setType("ice");'
                                 );
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "damage") {
                             if (inputParts[2] === "incDamage()") {
@@ -565,6 +588,14 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     "theseus.getSword().incDamage();"
                                 );
+                            } else if (inputParts[2] === "incDamage") {
+                                error
+                                    .setText("Missing parenthesis")
+                                    .setVisible(true);
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "speed") {
                             if (inputParts[2] === "incSpeed()") {
@@ -572,8 +603,26 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     "theseus.getSword().incSpeed();"
                                 );
+                            } else if (inputParts[2] === "incSpeed") {
+                                error
+                                    .setText("Missing parenthesis")
+                                    .setVisible(true);
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         }
+                    } else if (inputParts[1] === "getSword") {
+                        error.setText("Missing parenthesis").setVisible(true);
+                    } else if (inputParts[1] === "getBow()") {
+                        error.setText("Incorrect Weapon").setVisible(true);
+                    } else if (inputParts[1] === "sword") {
+                        error
+                            .setText("sword is private attribute")
+                            .setVisible(true);
+                    } else {
+                        error.setText("Incorrect getter").setVisible(true);
                     }
                 } else if (itemParts[0] === "bow") {
                     if (inputParts[1] === "getBow()") {
@@ -583,6 +632,10 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     'theseus.getBow().setType("poison");'
                                 );
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "triple") {
                             if (inputParts[2] === 'setType("triple")') {
@@ -590,6 +643,10 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     'theseus.getBow().setType("triple");'
                                 );
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "damage") {
                             if (inputParts[2] === "incDamage()") {
@@ -597,6 +654,14 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     "theseus.getBow().incDamage();"
                                 );
+                            } else if (inputParts[2] === "incDamage") {
+                                error
+                                    .setText("Missing parenthesis")
+                                    .setVisible(true);
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         } else if (itemParts[1] === "speed") {
                             if (inputParts[2] === "incSpeed()") {
@@ -604,10 +669,34 @@ export default class WeaponDesign extends Phaser.Scene {
                                 completeText.setText(
                                     "theseus.getBow().incSpeed();"
                                 );
+                            } else if (inputParts[2] === "incSpeed") {
+                                error
+                                    .setText("Missing parenthesis")
+                                    .setVisible(true);
+                            } else {
+                                error
+                                    .setText("Incorrect method")
+                                    .setVisible(true);
                             }
                         }
+                    } else if (inputParts[1] === "getBow") {
+                        error.setText("Missing parenthesis").setVisible(true);
+                    } else if (inputParts[1] === "getSword()") {
+                        error.setText("Incorrect Weapon").setVisible(true);
+                    } else if (inputParts[1] === "bow") {
+                        error
+                            .setText("bow is private attribute")
+                            .setVisible(true);
+                    } else {
+                        error.setText("Incorrect getter").setVisible(true);
                     }
                 }
+                if (inputParts[0] !== "") {
+                    error.setText("Missing dot").setVisible(true);
+                }
+                this.inputField.addEventListener("input", () => {
+                    error.setVisible(false);
+                });
 
                 if (isCorrect) {
                     this.inputField.remove();
