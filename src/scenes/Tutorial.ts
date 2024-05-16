@@ -171,9 +171,11 @@ export default class Tutorial extends Phaser.Scene {
         this.skipButton.on("pointerdown", this.handleSkipText, this);
 
         this.skipButton.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             this.skipButton.setScale(1.1);
         });
         this.skipButton.on("pointerout", () => {
+            this.input.setDefaultCursor("crosshair");
             this.skipButton.setScale();
         });
 
@@ -190,9 +192,11 @@ export default class Tutorial extends Phaser.Scene {
         this.nextButton.on("pointerdown", this.handleNextText, this);
 
         this.nextButton.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             this.nextButton.setScale(1.2);
         });
         this.nextButton.on("pointerout", () => {
+            this.input.setDefaultCursor("crosshair");
             this.nextButton.setScale();
         });
 
@@ -210,10 +214,12 @@ export default class Tutorial extends Phaser.Scene {
         this.prevButton.on("pointerdown", this.handlePrevText, this);
 
         this.prevButton.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             this.prevButton.setScale(1.2);
             this.prevButton.scaleX = -1;
         });
         this.prevButton.on("pointerout", () => {
+            this.input.setDefaultCursor("crosshair");
             this.prevButton.setScale();
             this.prevButton.scaleX = -1;
         });
@@ -475,8 +481,6 @@ export default class Tutorial extends Phaser.Scene {
             this.theseus.y,
             true
         );
-        //if (this.cursors?.space.isDown && tile.index != -1) {
-        //this.scene.start("maze-map")
 
         this.swordStatus = [];
         this.bowStatus = [];

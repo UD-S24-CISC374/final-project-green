@@ -95,10 +95,13 @@ export default class WeaponDesign extends Phaser.Scene {
         previous.setInteractive();
 
         previous.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
             previous.setScale(1.1);
             previous.scaleX *= -1;
         });
         previous.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
+
             previous.setScale(1);
             previous.scaleX *= -1;
         });
@@ -121,9 +124,13 @@ export default class WeaponDesign extends Phaser.Scene {
         next.setInteractive();
 
         next.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
+
             next.setScale(1.1);
         });
         next.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
+
             next.setScale(1);
         });
         next.on("pointerdown", () => {
@@ -457,9 +464,13 @@ export default class WeaponDesign extends Phaser.Scene {
 
         close.setInteractive();
         close.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
+
             close.setFontSize("27px");
         });
         close.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
+
             close.setFontSize("25px");
         });
         close.on("pointerdown", () => {
