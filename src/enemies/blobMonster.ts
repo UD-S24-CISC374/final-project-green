@@ -14,7 +14,7 @@ enum DamageState {
     POISON,
 }
 
-export default class FlyingBat extends Phaser.Physics.Arcade.Sprite {
+export default class BlobMonster extends Phaser.Physics.Arcade.Sprite {
     private target?: Phaser.Physics.Arcade.Sprite;
 
     private healthState = HealthState.IDLE;
@@ -47,7 +47,7 @@ export default class FlyingBat extends Phaser.Physics.Arcade.Sprite {
         frame?: string | number
     ) {
         super(scene, x, y, texture, frame);
-        this.anims.play("flying_bat_flapping");
+        this.anims.play("blob_monster_moving");
         this.createHealthBar();
     }
 
@@ -237,21 +237,21 @@ export default class FlyingBat extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
-            this.anims.play("flying_bat_flapping", true);
+            this.anims.play("blob_monster_moving", true);
             this.scaleX = -1;
             this.body.offset.x = 16;
         } else if (
             this.x > this.target.x &&
             Math.abs(this.x - this.target.x) > 30
         ) {
-            this.anims.play("flying_bat_flapping", true);
+            this.anims.play("blob_monster_moving", true);
             this.scaleX = 1;
             this.body.offset.x = 0;
         } else if (this.y <= this.target.y) {
-            this.anims.play("flying_bat_flapping", true);
+            this.anims.play("blob_monster_moving", true);
             this.body.offset.y = 4;
         } else if (this.y > this.target.y) {
-            this.anims.play("flying_bat_flapping", true);
+            this.anims.play("blob_monster_moving", true);
             this.body.offset.y = 4;
         }
         this.scene.physics.moveTo(

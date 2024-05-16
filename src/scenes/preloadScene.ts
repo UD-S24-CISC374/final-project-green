@@ -51,6 +51,12 @@ export default class PreloadScene extends Phaser.Scene {
             "assets/characters/flying_bat.json"
         );
 
+        this.load.atlas(
+            "blob_monster", 
+            "assets/characters/blob_monster.png",
+            "assets/characters/blob_monster.json"
+        );
+
         this.load.image("heart-empty", "assets/ui_heart_empty.png");
         this.load.image("heart-full", "assets/ui_heart_full.png");
 
