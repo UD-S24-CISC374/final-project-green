@@ -238,14 +238,14 @@ export default class FlyingBat extends Phaser.Physics.Arcade.Sprite {
 
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
             this.anims.play("flying_bat_flapping", true);
-            this.scaleX = -1;
+            this.scaleX = 1;
             this.body.offset.x = 16;
         } else if (
             this.x > this.target.x &&
             Math.abs(this.x - this.target.x) > 30
         ) {
             this.anims.play("flying_bat_flapping", true);
-            this.scaleX = 1;
+            this.scaleX = -1;
             this.body.offset.x = 0;
         } else if (this.y <= this.target.y) {
             this.anims.play("flying_bat_flapping", true);
