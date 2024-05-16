@@ -173,23 +173,21 @@ export default class MainScene extends Phaser.Scene {
                 posX = Phaser.Math.Between(24, 488);
                 posY = Phaser.Math.Between(76, 355);
             }
-            // console.log("Error here");
-            // this.flyingBat.get(posX, posY, "flying_bat_flapping");
             if (this.isEasyMode) {
                 if (this.threads === 3) {
-                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
+                    this.blobMonster.get(posX, posY, "blob_monster_moving");
                 } else if (this.threads === 2) {
                     this.flyingBat.get(posX, posY, "flying_bat_flapping");
                 } else if (this.threads === 1) {
-                    this.blobMonster.get(posX, posY, "blob_monster_moving");
+                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
                 }
             } else {
                 if (this.threads === 3) {
-                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
+                    this.blobMonster.get(posX, posY, "blob_monster_moving");
                 } else if (this.threads === 2) {
                     this.flyingBat.get(posX, posY, "flying_bat_flapping");
                 } else if (this.threads === 1) {
-                    this.blobMonster.get(posX, posY, "blob_monster_moving");
+                    this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
                 }
             }
         }
