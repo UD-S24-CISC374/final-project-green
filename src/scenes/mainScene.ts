@@ -31,6 +31,7 @@ export default class MainScene extends Phaser.Scene {
     private upgrades = 0;
     private swordStatus: string[];
     private bowStatus: string[];
+    private isEasyMode: boolean;
 
     private dropList = [
         { item: "sword-damage-up", weight: 14 },
@@ -57,6 +58,7 @@ export default class MainScene extends Phaser.Scene {
         updateCodeList: string[];
         swordStatus: string[];
         bowStatus: string[];
+        isEasyMode: boolean;
     }) {
         this.hp = data.hp;
         this.threads = data.threads;
@@ -65,6 +67,7 @@ export default class MainScene extends Phaser.Scene {
         this.updateCodeList = data.updateCodeList;
         this.swordStatus = data.swordStatus;
         this.bowStatus = data.bowStatus;
+        this.isEasyMode = data.isEasyMode;
     }
 
     create() {
@@ -145,15 +148,6 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
-        // let skeletonFlag;
-
-        // if (sessionStorage.getItem("skeletonsSpawned") !== "true") {
-        //     skeletonFlag = false; // Set initial value
-        // } else {
-        //     skeletonFlag =
-        //         sessionStorage.getItem("skeletonsSpawned") === "true";
-        // }
-
         for (let i = 0; i < 3; i++) {
             let posX = Phaser.Math.Between(24, 488);
             let posY = Phaser.Math.Between(76, 355);
@@ -163,11 +157,14 @@ export default class MainScene extends Phaser.Scene {
             }
             this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }
-        //sessionStorage.setItem("skeletonsSpawned", "true")
 
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
             redEyesSkeleton.setTarget(this.theseus!);
+            if (this.isEasyMode) {
+                redEyesSkeleton.updateStatus(40, 15);
+            }
+            redEyesSkeleton.setEasyMode = this.isEasyMode;
             redEyesSkeleton.body?.setSize(
                 redEyesSkeleton.width * 0.6,
                 redEyesSkeleton.height * 0.8
@@ -334,6 +331,7 @@ export default class MainScene extends Phaser.Scene {
                     updateCodeList: this.updateCodeList,
                     swordStatus: this.swordStatus,
                     bowStatus: this.bowStatus,
+                    isEasyMode: this.isEasyMode,
                 });
             } else {
                 this.scene.start("minotaur", {
@@ -344,6 +342,7 @@ export default class MainScene extends Phaser.Scene {
                     updateCodeList: this.updateCodeList,
                     swordStatus: this.swordStatus,
                     bowStatus: this.bowStatus,
+                    isEasyMode: this.isEasyMode,
                 });
             }
         }

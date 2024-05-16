@@ -54,11 +54,11 @@ export default class TitleScene extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(1000);
 
-        const startGame = this.add
+        const easyMode = this.add
             .text(
                 this.cameras.main.width / 2,
-                this.cameras.main.height / 1.5,
-                "Enter the Maze",
+                this.cameras.main.height / 1.5 - 20,
+                "Easy Mode",
                 {
                     fontSize: "20px",
                     fontFamily: "Academy Engraved LET",
@@ -70,14 +70,44 @@ export default class TitleScene extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(1000);
 
-        startGame.setInteractive();
-        startGame.on("pointerdown", () => this.scene.start("tutorial"));
+        easyMode.setInteractive();
+        easyMode.on("pointerdown", () =>
+            this.scene.start("tutorial", { isEasyMode: true })
+        );
 
-        startGame.on("pointerover", () => {
-            startGame.setScale(1.1);
+        easyMode.on("pointerover", () => {
+            easyMode.setScale(1.1);
         });
-        startGame.on("pointerout", () => {
-            startGame.setScale();
+        easyMode.on("pointerout", () => {
+            easyMode.setScale();
+        });
+
+        const hardMode = this.add
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 1.5 + 20,
+                "Hard Mode",
+                {
+                    fontSize: "20px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 4,
+                    stroke: "0xffffff",
+                    //strokeAlpha: 1
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        hardMode.setInteractive();
+        hardMode.on("pointerdown", () =>
+            this.scene.start("tutorial", { isEasyMode: false })
+        );
+
+        hardMode.on("pointerover", () => {
+            hardMode.setScale(1.1);
+        });
+        hardMode.on("pointerout", () => {
+            hardMode.setScale();
         });
 
         this.add.image(0, 0, "base_tiles");

@@ -27,11 +27,16 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
     private _health = 500;
     private maxHealth = 500;
     private speed = 60;
+    private isEasyMode: boolean;
 
     private healthBar: Phaser.GameObjects.Graphics;
 
     get health() {
         return this._health;
+    }
+
+    set setEasyMode(isEasyMode: boolean) {
+        this.isEasyMode = isEasyMode;
     }
 
     constructor(
@@ -48,6 +53,13 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
 
     setTarget(target: Phaser.Physics.Arcade.Sprite) {
         this.target = target;
+    }
+
+    updateStatus(speed: number, maxHealth: number) {
+        this.speed = speed;
+        this._health = maxHealth;
+        this.maxHealth = maxHealth;
+        this.updateHealthBarSize();
     }
 
     handleDamage(damage: number, attackType: string) {
@@ -82,7 +94,7 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
         if (attackType === "ice") {
             this.currentState = DamageState.ICE;
             this.effectTime = 0;
-            this.speed = 50;
+            this.speed = this.isEasyMode ? 40 : 50;
             this.setTint(0x0000ff);
         } else if (attackType === "fire") {
             this.currentState = DamageState.FIRE;
@@ -198,7 +210,7 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
                 }
                 if (this.effectTime >= 2000) {
                     this.currentState = DamageState.IDLE;
-                    this.speed = 60;
+                    this.speed = this.isEasyMode ? 50 : 60;
                     this.setTint(0xffffff);
                     this.effectTime = 0;
                 }
