@@ -6,7 +6,6 @@ import GameOver from "./scenes/GameOver";
 import MainScene from "./scenes/mainScene";
 import Tutorial from "./scenes/Tutorial";
 import Pause from "./scenes/Pause";
-import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
 import MinotaurRoom from "./scenes/MinotaurRoom";
 import GameClear from "./scenes/GameClear";
@@ -37,12 +36,11 @@ export const CONFIG = {
         MainScene,
         MinotaurRoom,
         GameUI,
-        MazeMap,
         WeaponDesign,
+        Instructions,
         Pause,
         GameOver,
         GameClear,
-        Instructions,
     ],
     physics: {
         default: "arcade",
