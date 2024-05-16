@@ -45,16 +45,17 @@ export default class Tutorial extends Phaser.Scene {
             "Oh, you don't know how to use it?\nDon't worry it's not that hard.",
             "I gave you an item that can increase the damage of bow, so let's try using it.",
             "Try pressing E once to see what you have!",
-            "If you put item in the box, it will require you to write some code to upgrade your weapon.",
+            "If you drag item in the box below, it will show you a box where you can write some code to upgrade your weapon.",
             "First, we should get bow from theseus file to upgrade it.",
             "Try clicking the arrow button on the top so that you can look through theseus file.",
             "We can find lots of code, but we need only one, getBow(), to use our item.",
+            "Let's type it to the box!\nDon't forget you need a dot before to use code.",
             "Okay! Then we need another code that can access to the damage of the bow.",
             "Let's move to bow file.",
             "As you can see, there is incDamage() code that will increase the damage of the bow.",
-            "Let's return to main file and write the code.\nDon't forget you need a dot before to use code.",
-            "If you press ENTER key.... item should be successfully used!",
-            "If it did not, try going back the dialogues and write it again",
+            "Let's return to main file and write the code.\nAgain, don't forget you need a dot before to use code.",
+            "If you press ENTER key.... \nitem should be successfully used!",
+            "If it did not, try going back the dialogues and write it again.",
             "It seems you're ready... Good Luck Theseus!",
         ];
     }
@@ -196,7 +197,7 @@ export default class Tutorial extends Phaser.Scene {
         let bowGet = false;
         let itemGet = false;
 
-        this.events.once("bowAndItem", () => {
+        sceneEvents.once("bowAndItem", () => {
             if (!this.theseus) {
                 return;
             }
@@ -229,6 +230,7 @@ export default class Tutorial extends Phaser.Scene {
                     if (itemGet) {
                         this.nextButton.setActive(true).setVisible(true);
                         this.prevButton.setActive(true).setVisible(true);
+                        sceneEvents.emit("bowItemGet");
                     }
                 },
                 undefined,
@@ -308,7 +310,13 @@ export default class Tutorial extends Phaser.Scene {
             if (this.updateCodeList != undefined) {
                 tempList = this.updateCodeList;
             }
+            this.ariadne.setVisible(false);
+            this.textBox.setVisible(false);
+            this.ariadneText.setVisible(false);
+            this.nextButton.setActive(false).setVisible(false);
+            this.prevButton.setActive(false).setVisible(false);
             this.scene.pause();
+            this.scene.run("instructions", { currentIndex: this.currentIndex });
             this.scene.run("weapon-design", {
                 from: "tutorial",
                 itemList: this.itemList,
@@ -342,6 +350,11 @@ export default class Tutorial extends Phaser.Scene {
                 if (this.upgrades < data.upgradeList.length) {
                     this.handleWeaponUpdated(data.upgradeList);
                 }
+                this.ariadne.setVisible(true);
+                this.textBox.setVisible(true);
+                this.ariadneText.setVisible(true);
+                this.nextButton.setActive(true).setVisible(true);
+                this.prevButton.setActive(true).setVisible(true);
             }
         );
 
@@ -357,6 +370,8 @@ export default class Tutorial extends Phaser.Scene {
             this.itemList = [];
             this.updateCodeList = [];
         });
+
+        sceneEvents.on("update-index", this.updateText, this);
 
         this.add
             .image(
@@ -460,7 +475,7 @@ export default class Tutorial extends Phaser.Scene {
     private handleNextText() {
         this.currentIndex++;
         if (this.currentIndex === 3) {
-            this.events.emit("bowAndItem");
+            sceneEvents.emit("bowAndItem");
         }
         if (this.currentIndex < this.ariadneTextOptions.length) {
             this.ariadneText.setText(
@@ -478,6 +493,7 @@ export default class Tutorial extends Phaser.Scene {
                 this.textBox.setVisible(false);
                 this.prevButton.setActive(false).setVisible(false);
                 this.nextButton.setActive(false).setVisible(false);
+                sceneEvents.emit("ready");
             }
             this.currentIndex = this.ariadneTextOptions.length - 1;
         }
@@ -492,6 +508,16 @@ export default class Tutorial extends Phaser.Scene {
         } else {
             this.currentIndex = 0;
         }
+    }
+
+    private updateText(currentIndex: number) {
+        this.ariadne.setVisible(true);
+        this.textBox.setVisible(true);
+        this.ariadneText.setVisible(true);
+        this.nextButton.setActive(true).setVisible(true);
+        this.prevButton.setActive(true).setVisible(true);
+        this.currentIndex = currentIndex;
+        this.ariadneText.setText(this.ariadneTextOptions[this.currentIndex]);
     }
 
     private handleWeaponUpdated(upgradeList: string[]) {

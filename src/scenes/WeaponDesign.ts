@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { createWeaponDesignScreen } from "../screen/weaponDesignTexts";
-// import { sceneEvents } from "../events/eventsCenter";
+import { sceneEvents } from "../events/eventsCenter";
 
 export default class WeaponDesign extends Phaser.Scene {
     private fileList = ["Main", "Theseus", "Sword", "Bow"];
@@ -187,6 +187,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     if (gameObject.x >= this.cameras.main.width * 0.9) {
                         initialPosition = { x: gameObject.x, y: gameObject.y };
                     }
+                    this.scene.pause("instructions");
                 }
             );
 
@@ -220,6 +221,7 @@ export default class WeaponDesign extends Phaser.Scene {
                             itemTag.y = gameObject.y + 15;
                         }
                     }
+                    this.scene.resume("instructions");
                 }
             );
         };
@@ -473,6 +475,9 @@ export default class WeaponDesign extends Phaser.Scene {
                 updateCodeList: this.updateCodeList,
                 upgradeList: this.upgradeList,
             });
+            if (this.previous === "tutorial") {
+                this.scene.stop("instructions");
+            }
             console.log(this.updateCodeList);
             this.scene.stop();
         });
@@ -492,6 +497,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.inputField.disabled = false;
                 this.holdingItem.setVisible(true);
             }
+            sceneEvents.emit("in-main");
         } else {
             if (this.holdingItem != undefined) {
                 this.defaultCode.setVisible(false);
@@ -500,6 +506,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.inputField.disabled = true;
                 this.holdingItem.setVisible(false);
             }
+            sceneEvents.emit("not-main");
         }
         console.log(this.upgradeList);
     }
