@@ -148,7 +148,7 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 7 - this.threads; i++) {
             let posX = Phaser.Math.Between(24, 488);
             let posY = Phaser.Math.Between(76, 355);
             while ((posX > 236 && posX < 276) || (posY > 172 && posY < 212)) {
