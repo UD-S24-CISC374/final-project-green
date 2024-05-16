@@ -148,7 +148,9 @@ export default class MainScene extends Phaser.Scene {
             classType: RedEyesSkeleton,
         });
 
-        for (let i = 0; i < 7 - this.threads; i++) {
+        let maxNum = this.isEasyMode ? 6 : 7;
+
+        for (let i = 0; i < maxNum - this.threads; i++) {
             let posX = Phaser.Math.Between(24, 488);
             let posY = Phaser.Math.Between(76, 355);
             while ((posX > 236 && posX < 276) || (posY > 172 && posY < 212)) {
@@ -226,7 +228,7 @@ export default class MainScene extends Phaser.Scene {
             }
         );
 
-        this.events.on("gameRetry", () => {
+        sceneEvents.on("gameRetry", () => {
             if (!this.theseus) {
                 return;
             }
@@ -317,7 +319,7 @@ export default class MainScene extends Phaser.Scene {
                 pushComplete = true;
             }
 
-            if (this.threads > 1) {
+            if (this.threads > 2) {
                 this.scene.start("mainScene", {
                     hp: this.theseus.health,
                     threads: this.threads - 1,

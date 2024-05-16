@@ -22,6 +22,7 @@ export default class Tutorial extends Phaser.Scene {
     private updateCodeList: string[] | undefined;
     private upgrades = 0;
     private isEasyMode: boolean;
+    private isSkipped = false;
 
     private ariadne: Phaser.GameObjects.Image;
     private textBox: Phaser.GameObjects.Rectangle;
@@ -30,6 +31,7 @@ export default class Tutorial extends Phaser.Scene {
     private ariadneTextOptions: string[];
     private nextButton: Phaser.GameObjects.Image;
     private prevButton: Phaser.GameObjects.Image;
+    private skipButton: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "tutorial" });
@@ -153,6 +155,28 @@ export default class Tutorial extends Phaser.Scene {
             });
         });
 
+        this.skipButton = this.add
+            .text(
+                this.cameras.main.width * 0.78,
+                this.cameras.main.height * 0.78,
+                "skip",
+                {
+                    fontSize: "12px",
+                }
+            )
+            .setDepth(1000)
+            .setInteractive()
+            .setOrigin(0.5);
+
+        this.skipButton.on("pointerdown", this.handleSkipText, this);
+
+        this.skipButton.on("pointerover", () => {
+            this.skipButton.setScale(1.1);
+        });
+        this.skipButton.on("pointerout", () => {
+            this.skipButton.setScale();
+        });
+
         this.nextButton = this.add
             .image(
                 this.cameras.main.width * 0.8,
@@ -227,9 +251,10 @@ export default class Tutorial extends Phaser.Scene {
                     this.theseus.canUseBow = true;
                     bow.destroy();
                     bowGet = true;
-                    if (itemGet) {
+                    if (itemGet && !this.isSkipped) {
                         this.nextButton.setActive(true).setVisible(true);
                         this.prevButton.setActive(true).setVisible(true);
+                        this.skipButton.setActive(true).setVisible(true);
                         sceneEvents.emit("bowItemGet");
                     }
                 },
@@ -257,9 +282,10 @@ export default class Tutorial extends Phaser.Scene {
                     this.itemList.push("bow-damage-up");
                     sampleItem.destroy();
                     itemGet = true;
-                    if (bowGet) {
+                    if (bowGet && !this.isSkipped) {
                         this.nextButton.setActive(true).setVisible(true);
                         this.prevButton.setActive(true).setVisible(true);
+                        this.skipButton.setActive(true).setVisible(true);
                     }
                 },
                 undefined,
@@ -295,7 +321,7 @@ export default class Tutorial extends Phaser.Scene {
                 {
                     fontSize: "12px",
                     color: "#fff",
-                    wordWrap: { width: this.cameras.main.width * 0.7 },
+                    wordWrap: { width: this.cameras.main.width * 0.65 },
                 }
             )
             .setDepth(1000);
@@ -315,8 +341,14 @@ export default class Tutorial extends Phaser.Scene {
             this.ariadneText.setVisible(false);
             this.nextButton.setActive(false).setVisible(false);
             this.prevButton.setActive(false).setVisible(false);
+            this.skipButton.setActive(false).setVisible(false);
             this.scene.pause();
-            this.scene.run("instructions", { currentIndex: this.currentIndex });
+            if (!this.isSkipped) {
+                this.scene.run("instructions", {
+                    currentIndex: this.currentIndex,
+                });
+            }
+
             this.scene.run("weapon-design", {
                 from: "tutorial",
                 itemList: this.itemList,
@@ -350,11 +382,14 @@ export default class Tutorial extends Phaser.Scene {
                 if (this.upgrades < data.upgradeList.length) {
                     this.handleWeaponUpdated(data.upgradeList);
                 }
-                this.ariadne.setVisible(true);
-                this.textBox.setVisible(true);
-                this.ariadneText.setVisible(true);
-                this.nextButton.setActive(true).setVisible(true);
-                this.prevButton.setActive(true).setVisible(true);
+                if (!this.isSkipped) {
+                    this.ariadne.setVisible(true);
+                    this.textBox.setVisible(true);
+                    this.ariadneText.setVisible(true);
+                    this.nextButton.setActive(true).setVisible(true);
+                    this.prevButton.setActive(true).setVisible(true);
+                    this.skipButton.setActive(true).setVisible(true);
+                }
             }
         );
 
@@ -372,6 +407,9 @@ export default class Tutorial extends Phaser.Scene {
         });
 
         sceneEvents.on("update-index", this.updateText, this);
+        sceneEvents.on("gameRetry", () => {
+            this.isSkipped = false;
+        });
 
         this.add
             .image(
@@ -493,6 +531,7 @@ export default class Tutorial extends Phaser.Scene {
                 this.textBox.setVisible(false);
                 this.prevButton.setActive(false).setVisible(false);
                 this.nextButton.setActive(false).setVisible(false);
+                this.skipButton.setActive(false).setVisible(false);
                 sceneEvents.emit("ready");
             }
             this.currentIndex = this.ariadneTextOptions.length - 1;
@@ -510,12 +549,30 @@ export default class Tutorial extends Phaser.Scene {
         }
     }
 
+    private handleSkipText() {
+        this.doorLayer.setCollisionByProperty({ collides: true }, false);
+        this.doorLayer.setVisible(false);
+        this.ariadneText.setVisible(false);
+        this.ariadne.setVisible(false);
+        this.textBox.setVisible(false);
+        this.prevButton.setActive(false).setVisible(false);
+        this.nextButton.setActive(false).setVisible(false);
+        this.skipButton.setActive(false).setVisible(false);
+        this.isSkipped = true;
+        sceneEvents.emit("bowAndItem");
+        sceneEvents.emit("ready");
+    }
+
     private updateText(currentIndex: number) {
+        if (this.isSkipped) {
+            return;
+        }
         this.ariadne.setVisible(true);
         this.textBox.setVisible(true);
         this.ariadneText.setVisible(true);
         this.nextButton.setActive(true).setVisible(true);
         this.prevButton.setActive(true).setVisible(true);
+        this.skipButton.setActive(true).setVisible(true);
         this.currentIndex = currentIndex;
         this.ariadneText.setText(this.ariadneTextOptions[this.currentIndex]);
     }
