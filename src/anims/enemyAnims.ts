@@ -57,4 +57,19 @@ const createRedEyesSkeletonAnims = (
     });
 };
 
+const createFlyingBatAnims = (anims: Phaser.Animations.AnimationManager) => {
+    anims.create({
+        key: "flying_bat_flapping",
+        frames: anims.generateFrameNames("flying_Bat", {
+            start: 1,
+            end: 7,
+            prefix: "fly_0",
+            suffix: ".png",
+        }),
+        frameRate: 10,
+        repeat: -1,
+    });
+};
+
+export { createFlyingBatAnims };
 export { createRedEyesSkeletonAnims };
