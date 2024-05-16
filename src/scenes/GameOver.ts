@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import FpsText from "../objects/fpsText";
+import { sceneEvents } from "../events/eventsCenter";
 
 export default class GameOver extends Phaser.Scene {
     fpsText: FpsText;
@@ -85,7 +86,7 @@ export default class GameOver extends Phaser.Scene {
         });
         retry.on("pointerdown", () => {
             this.scene.start("tutorial");
-            this.events.emit("gameRetry");
+            sceneEvents.emit("gameRetry");
         });
 
         const goTitle = this.add

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { sceneEvents } from "../events/eventsCenter";
 
 export default class Pause extends Phaser.Scene {
     private previous: string;
@@ -103,7 +104,7 @@ export default class Pause extends Phaser.Scene {
             }
             this.scene.stop("game-ui");
             this.scene.start("TitleScene");
-            this.events.emit("gameRetry");
+            sceneEvents.emit("gameRetry");
         });
 
         this.input.keyboard?.on("keydown-ESC", () => {

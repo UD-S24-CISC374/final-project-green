@@ -23,6 +23,7 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
     private damageTime = 0;
     private effectTime = 0;
     private decreaseTime = 0;
+    private speedTime = 0;
 
     private _health = 500;
     private maxHealth = 500;
@@ -281,7 +282,20 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
             this.anims.play("minotaur-run-up", true);
             this.body.offset.y = 25;
         }
-        this.scene.physics.moveTo(this, this.target.x, this.target.y, 60);
+        if (!this.isEasyMode) {
+            this.speedTime += dt;
+            if (this.speedTime >= 250) {
+                this.speed = Math.floor(Math.random() * 21 + 60);
+                this.speedTime = 0;
+                console.log(this.speed);
+            }
+        }
+        this.scene.physics.moveTo(
+            this,
+            this.target.x,
+            this.target.y,
+            this.speed
+        );
     }
 
     update() {

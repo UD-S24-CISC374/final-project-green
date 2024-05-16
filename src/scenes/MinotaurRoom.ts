@@ -189,7 +189,7 @@ export default class MinotaurRoom extends Phaser.Scene {
             }
         );
 
-        this.events.on("gameRetry", () => {
+        sceneEvents.on("gameRetry", () => {
             if (!this.theseus) {
                 return;
             }
