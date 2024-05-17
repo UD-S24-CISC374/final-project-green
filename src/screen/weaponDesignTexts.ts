@@ -44,9 +44,9 @@ const createWeaponDesignScreen = (
     scene.add
         .text(scene.cameras.main.width * 0.9, 28, "Items", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -55,9 +55,10 @@ const createWeaponDesignScreen = (
     const theseusTitle = scene.add
         .text(scene.cameras.main.width * 0.45, 28, "Theseus.java", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            // //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -72,9 +73,10 @@ const createWeaponDesignScreen = (
                 "\t\t\t\tprivate Bow bow ;",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -90,9 +92,10 @@ const createWeaponDesignScreen = (
                 "\t\t\t\tthis.bow = new Bow() ;\n}",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -108,9 +111,10 @@ const createWeaponDesignScreen = (
                 "public void setSpeed(double speed) { this.speed = speed ; }\n",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -118,9 +122,10 @@ const createWeaponDesignScreen = (
     const theseusClose = scene.add
         .text(scene.cameras.main.width * 0.05 + 10, 305, "}", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -135,9 +140,10 @@ const createWeaponDesignScreen = (
     const mainTitle = scene.add
         .text(scene.cameras.main.width * 0.45, 28, "main.java", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -150,9 +156,10 @@ const createWeaponDesignScreen = (
                 "\t\t\t\tTheseus theseus = new Theseus() ;",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -164,9 +171,10 @@ const createWeaponDesignScreen = (
     const swordTitle = scene.add
         .text(scene.cameras.main.width * 0.45, 28, "Sword.java", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -181,9 +189,10 @@ const createWeaponDesignScreen = (
                 "\t\t\t\tprivate string type ;",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -198,9 +207,10 @@ const createWeaponDesignScreen = (
                 '\t\t\t\tthis.type =  "classic";\n}',
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -216,9 +226,10 @@ const createWeaponDesignScreen = (
                 "public void setType(string type) { this.type = type ; }\n",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -232,9 +243,10 @@ const createWeaponDesignScreen = (
                 "public void incSpeed() { this.speed += 1 ; }",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -243,9 +255,10 @@ const createWeaponDesignScreen = (
     const swordClose = scene.add
         .text(scene.cameras.main.width * 0.05 + 10, 347, "}", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -261,9 +274,10 @@ const createWeaponDesignScreen = (
     const bowTitle = scene.add
         .text(scene.cameras.main.width * 0.45, 28, "Bow.java", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
@@ -278,9 +292,10 @@ const createWeaponDesignScreen = (
                 "\t\t\t\tprivate string type ;",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -295,9 +310,10 @@ const createWeaponDesignScreen = (
                 '\t\t\t\tthis.type =  "classic";\n}',
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -313,9 +329,10 @@ const createWeaponDesignScreen = (
                 "public void setType(string type) { this.type = type ; }\n",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -328,9 +345,10 @@ const createWeaponDesignScreen = (
                 "public void incSpeed() { this.speed += 1 ; }",
             {
                 fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
+                fontFamily: "American Typewriter",
+                strokeThickness: 1,
+                //stroke: "0xffffff",
+                color: "0x000000",
             }
         )
         .setOrigin(0.5)
@@ -339,9 +357,10 @@ const createWeaponDesignScreen = (
     const bowClose = scene.add
         .text(scene.cameras.main.width * 0.05 + 10, 347, "}", {
             fontSize: "12px",
-            fontFamily: "Academy Engraved LET",
-            strokeThickness: 3,
-            stroke: "0xffffff",
+            fontFamily: "American Typewriter",
+            strokeThickness: 1,
+            //stroke: "0xffffff",
+            color: "0x000000",
         })
         .setOrigin(0.5)
         .setDepth(1000);
