@@ -24,8 +24,8 @@ export default class BlobMonster extends Phaser.Physics.Arcade.Sprite {
     private effectTime = 0;
     private decreaseTime = 0;
 
-    private _health = 20;
-    private maxHealth = 20;
+    private _health = 10;
+    private maxHealth = 10;
     private speed = 50;
     private isEasyMode: boolean;
 

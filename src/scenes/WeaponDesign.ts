@@ -79,9 +79,10 @@ export default class WeaponDesign extends Phaser.Scene {
                         text,
                         {
                             fontSize: "12px",
-                            fontFamily: "Academy Engraved LET",
-                            strokeThickness: 3,
-                            stroke: "0xffffff",
+                            fontFamily: "American Typewriter",
+                            strokeThickness: 1,
+                            //stroke: "0xffffff",
+                            color: "0x000000",
                         }
                     )
                     .setOrigin(0)
@@ -164,9 +165,10 @@ export default class WeaponDesign extends Phaser.Scene {
             const itemTag = this.add
                 .text(x, y + 15, itemName, {
                     fontSize: "10px",
-                    fontFamily: "Academy Engraved LET",
-                    strokeThickness: 3,
-                    stroke: "0xffffff",
+                    fontFamily: "American Typewriter",
+                    //strokeThickness: 3,
+                    //stroke: "0xffffff",
+                    color: "0x000000",
                 })
                 .setOrigin(0.5)
                 .setDepth(2000)
@@ -372,9 +374,10 @@ export default class WeaponDesign extends Phaser.Scene {
                 "\ttheseus",
                 {
                     fontSize: "12px",
-                    fontFamily: "Academy Engraved LET",
-                    strokeThickness: 3,
-                    stroke: "0xffffff",
+                    fontFamily: "American Typewriter",
+                    strokeThickness: 1,
+                    //stroke: "0xffffff",
+                    color: "0x000000",
                 }
             )
             .setOrigin(0.5)
@@ -387,10 +390,11 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.cameras.main.height * 0.86 + 2,
                 ";",
                 {
-                    fontSize: "12px",
-                    fontFamily: "Academy Engraved LET",
-                    strokeThickness: 3,
-                    stroke: "0xffffff",
+                    fontSize: "20px",
+                    fontFamily: "American Typewriter",
+                    strokeThickness: 1,
+                    //stroke: "0xffffff",
+                    color: "0x000000",
                 }
             )
             .setOrigin(0.5)
@@ -462,7 +466,6 @@ export default class WeaponDesign extends Phaser.Scene {
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 6,
                 stroke: "0xffffff",
-                //strokeAlpha: 1
             })
             .setOrigin(0.5)
             .setDepth(1000);
@@ -555,9 +558,10 @@ export default class WeaponDesign extends Phaser.Scene {
                         "",
                         {
                             fontSize: "12px",
-                            fontFamily: "Academy Engraved LET",
-                            strokeThickness: 3,
-                            stroke: "0xffffff",
+                            fontFamily: "American Typewriter",
+                            strokeThickness: 1,
+                            //stroke: "0xffffff",
+                            color: "0x000000",
                         }
                     )
                     .setOrigin(0)

@@ -70,6 +70,7 @@ export default class MazeMap extends Phaser.Scene {
                 this.ariadneTextOptions[this.currentIndex],
                 {
                     fontSize: "12px",
+                    fontFamily: "American Typewriter",
                     color: "#fff",
                     wordWrap: { width: this.cameras.main.width * 0.7 },
                 }

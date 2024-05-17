@@ -132,8 +132,6 @@ export default class Tutorial extends Phaser.Scene {
 
         this.currentIndex = 0;
 
-        //this.scene.run("maze-map");
-
         this.time.delayedCall(1000, () => {
             if (!this.theseus) {
                 return;
