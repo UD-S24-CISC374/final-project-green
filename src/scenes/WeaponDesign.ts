@@ -15,6 +15,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
     private codeList: Phaser.GameObjects.Group;
     private itemBox: Phaser.GameObjects.Group;
+    private usedCodes: Phaser.GameObjects.Group;
     private errorMessage: Phaser.GameObjects.Text;
 
     private holdingItem: Phaser.GameObjects.Image | undefined;
@@ -52,6 +53,8 @@ export default class WeaponDesign extends Phaser.Scene {
         this.swordFile = this.add.group();
         this.bowFile = this.add.group();
 
+        this.usedCodes = this.add.group();
+
         createWeaponDesignScreen(
             this,
             this.theseusFile,
@@ -69,7 +72,7 @@ export default class WeaponDesign extends Phaser.Scene {
         if (this.updateCodeList) {
             this.updateCodeList.forEach((text: string, index: number) => {
                 let textY = this.cameras.main.height * 0.25;
-                this.add
+                const codeText = this.add
                     .text(
                         this.cameras.main.width * 0.1,
                         textY + 20 * index,
@@ -84,6 +87,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     .setOrigin(0)
                     .setDepth(1000)
                     .setVisible(true);
+                this.usedCodes.add(codeText);
             });
         }
 
@@ -503,6 +507,7 @@ export default class WeaponDesign extends Phaser.Scene {
         this.swordFile.setVisible(this.current === "Sword");
         this.bowFile.setVisible(this.current === "Bow");
         this.itemBox.setVisible(this.current === "Main");
+        this.usedCodes.setVisible(this.current === "Main");
         if (this.current === "Main") {
             if (this.holdingItem != undefined) {
                 this.defaultCode.setVisible(true);
@@ -524,7 +529,7 @@ export default class WeaponDesign extends Phaser.Scene {
             }
             sceneEvents.emit("not-main");
         }
-        console.log(this.upgradeList);
+        console.log(this.upgradeList, "holdingItme:", this.holdingItem);
     }
 
     update() {
@@ -732,13 +737,14 @@ export default class WeaponDesign extends Phaser.Scene {
                     this.semiColonCode.setVisible(false);
                     this.codeList.remove(this.holdingItem);
                     this.upgradeList.push(this.holdingItem.texture.key);
-                    this.holdingItem.destroy();
+                    this.holdingItem = undefined;
                     completeText.setY(
                         this.cameras.main.height * 0.25 +
                             20 * this.updateCodeList.length
                     );
                     completeText.setVisible(true);
                     this.updateCodeList.push(completeText.text);
+                    this.usedCodes.add(completeText);
                     this.events.emit("weapon-updated", this.upgradeList);
                 }
             }
