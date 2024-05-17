@@ -24,8 +24,8 @@ export default class BlobMonster extends Phaser.Physics.Arcade.Sprite {
     private effectTime = 0;
     private decreaseTime = 0;
 
-    private _health = 20;
-    private maxHealth = 20;
+    private _health = 10;
+    private maxHealth = 10;
     private speed = 50;
     private isEasyMode: boolean;
 
@@ -239,7 +239,7 @@ export default class BlobMonster extends Phaser.Physics.Arcade.Sprite {
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
             this.anims.play("blob_monster_moving", true);
             this.scaleX = 1;
-            this.body.offset.x = 16;
+            this.body.offset.x = 20;
         } else if (
             this.x > this.target.x &&
             Math.abs(this.x - this.target.x) > 30
@@ -249,10 +249,10 @@ export default class BlobMonster extends Phaser.Physics.Arcade.Sprite {
             this.body.offset.x = 0;
         } else if (this.y <= this.target.y) {
             this.anims.play("blob_monster_moving", true);
-            this.body.offset.y = 4;
+            this.body.offset.y = 0;
         } else if (this.y > this.target.y) {
             this.anims.play("blob_monster_moving", true);
-            this.body.offset.y = 4;
+            this.body.offset.y = 0;
         }
         this.scene.physics.moveTo(
             this,
