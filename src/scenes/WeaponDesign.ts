@@ -737,6 +737,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     this.semiColonCode.setVisible(false);
                     this.codeList.remove(this.holdingItem);
                     this.upgradeList.push(this.holdingItem.texture.key);
+                    this.holdingItem.destroy();
                     this.holdingItem = undefined;
                     completeText.setY(
                         this.cameras.main.height * 0.25 +
