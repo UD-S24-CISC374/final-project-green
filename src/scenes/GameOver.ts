@@ -118,6 +118,7 @@ export default class GameOver extends Phaser.Scene {
             this.scene.stop("mainScene");
             this.scene.stop("game-ui");
             this.scene.start("TitleScene");
+            sceneEvents.emit("gameRetry");
         });
 
         this.add.image(0, 0, "base_tiles");
