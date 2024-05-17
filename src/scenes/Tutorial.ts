@@ -155,10 +155,11 @@ export default class Tutorial extends Phaser.Scene {
 
         this.skipButton = this.add
             .text(
-                this.cameras.main.width * 0.78,
+                this.cameras.main.width * 0.79,
                 this.cameras.main.height * 0.78,
                 "skip",
                 {
+                    fontFamily: "American Typewriter",
                     fontSize: "12px",
                 }
             )
@@ -323,6 +324,7 @@ export default class Tutorial extends Phaser.Scene {
                 this.cameras.main.height * 0.8,
                 this.ariadneTextOptions[this.currentIndex],
                 {
+                    fontFamily: "American Typewriter",
                     fontSize: "12px",
                     color: "#fff",
                     wordWrap: { width: this.cameras.main.width * 0.65 },
