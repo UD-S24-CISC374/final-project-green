@@ -834,7 +834,12 @@ export default class MainScene extends Phaser.Scene {
     }
 
     update() {
-        const enemyRemained = this.redEyesSkeletons?.getChildren();
+        const enemyRemained =
+            this.threads === 3
+                ? this.blobMonster?.getChildren()
+                : this.threads === 2
+                ? this.flyingBat?.getChildren()
+                : this.redEyesSkeletons?.getChildren();
         if (enemyRemained!.length === 0) {
             this.events.emit("enemyDefeated");
         }

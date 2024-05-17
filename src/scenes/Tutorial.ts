@@ -183,7 +183,7 @@ export default class Tutorial extends Phaser.Scene {
             .image(
                 this.cameras.main.width * 0.8,
                 this.cameras.main.height * 0.9,
-                "ArrowButton"
+                "next-button"
             )
             .setDepth(1000);
 
@@ -204,7 +204,7 @@ export default class Tutorial extends Phaser.Scene {
             .image(
                 this.cameras.main.width * 0.77,
                 this.cameras.main.height * 0.9,
-                "ArrowButton"
+                "next-button"
             )
             .setDepth(1000);
         this.prevButton.scaleX = -1;

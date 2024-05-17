@@ -80,7 +80,7 @@ export default class MazeMap extends Phaser.Scene {
             .image(
                 this.cameras.main.width * 0.8,
                 this.cameras.main.height * 0.9 - 60,
-                "ArrowButton"
+                "next-button"
             )
             .setDepth(1000);
 
@@ -101,7 +101,7 @@ export default class MazeMap extends Phaser.Scene {
             .image(
                 this.cameras.main.width * 0.77,
                 this.cameras.main.height * 0.9 - 60,
-                "ArrowButton"
+                "next-button"
             )
             .setDepth(1000);
         this.prevButton.scaleX = -1;

@@ -15,6 +15,8 @@ export default class WeaponDesign extends Phaser.Scene {
 
     private codeList: Phaser.GameObjects.Group;
     private itemBox: Phaser.GameObjects.Group;
+    private usedCodes: Phaser.GameObjects.Group;
+    private errorMessage: Phaser.GameObjects.Text;
 
     private holdingItem: Phaser.GameObjects.Image | undefined;
 
@@ -51,6 +53,8 @@ export default class WeaponDesign extends Phaser.Scene {
         this.swordFile = this.add.group();
         this.bowFile = this.add.group();
 
+        this.usedCodes = this.add.group();
+
         createWeaponDesignScreen(
             this,
             this.theseusFile,
@@ -68,7 +72,7 @@ export default class WeaponDesign extends Phaser.Scene {
         if (this.updateCodeList) {
             this.updateCodeList.forEach((text: string, index: number) => {
                 let textY = this.cameras.main.height * 0.25;
-                this.add
+                const codeText = this.add
                     .text(
                         this.cameras.main.width * 0.1,
                         textY + 20 * index,
@@ -83,6 +87,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     .setOrigin(0)
                     .setDepth(1000)
                     .setVisible(true);
+                this.usedCodes.add(codeText);
             });
         }
 
@@ -502,6 +507,7 @@ export default class WeaponDesign extends Phaser.Scene {
         this.swordFile.setVisible(this.current === "Sword");
         this.bowFile.setVisible(this.current === "Bow");
         this.itemBox.setVisible(this.current === "Main");
+        this.usedCodes.setVisible(this.current === "Main");
         if (this.current === "Main") {
             if (this.holdingItem != undefined) {
                 this.defaultCode.setVisible(true);
@@ -509,6 +515,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.inputField.style.visibility = "visible";
                 this.inputField.disabled = false;
                 this.holdingItem.setVisible(true);
+                this.errorMessage.setVisible(true);
             }
             sceneEvents.emit("in-main");
         } else {
@@ -518,10 +525,11 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.inputField.style.visibility = "hidden";
                 this.inputField.disabled = true;
                 this.holdingItem.setVisible(false);
+                this.errorMessage.setVisible(false);
             }
             sceneEvents.emit("not-main");
         }
-        console.log(this.upgradeList);
+        console.log(this.upgradeList, "holdingItme:", this.holdingItem);
     }
 
     update() {
@@ -556,8 +564,8 @@ export default class WeaponDesign extends Phaser.Scene {
                     .setDepth(1000)
                     .setVisible(false);
 
-                //error message for feedback
-                const error = this.add
+                //this.errorMessage message for feedback
+                this.errorMessage = this.add
                     .text(
                         this.cameras.main.width * 0.3,
                         this.cameras.main.height * 0.91,
@@ -580,7 +588,7 @@ export default class WeaponDesign extends Phaser.Scene {
                                     'theseus.getSword().setType("fire");'
                                 );
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -591,7 +599,7 @@ export default class WeaponDesign extends Phaser.Scene {
                                     'theseus.getSword().setType("ice");'
                                 );
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -602,11 +610,11 @@ export default class WeaponDesign extends Phaser.Scene {
                                     "theseus.getSword().incDamage();"
                                 );
                             } else if (inputParts[2] === "incDamage") {
-                                error
+                                this.errorMessage
                                     .setText("Missing parenthesis")
                                     .setVisible(true);
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -617,25 +625,31 @@ export default class WeaponDesign extends Phaser.Scene {
                                     "theseus.getSword().incSpeed();"
                                 );
                             } else if (inputParts[2] === "incSpeed") {
-                                error
+                                this.errorMessage
                                     .setText("Missing parenthesis")
                                     .setVisible(true);
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
                         }
                     } else if (inputParts[1] === "getSword") {
-                        error.setText("Missing parenthesis").setVisible(true);
+                        this.errorMessage
+                            .setText("Missing parenthesis")
+                            .setVisible(true);
                     } else if (inputParts[1] === "getBow()") {
-                        error.setText("Incorrect Weapon").setVisible(true);
+                        this.errorMessage
+                            .setText("Incorrect Weapon")
+                            .setVisible(true);
                     } else if (inputParts[1] === "sword") {
-                        error
+                        this.errorMessage
                             .setText("sword is private attribute")
                             .setVisible(true);
                     } else {
-                        error.setText("Incorrect getter").setVisible(true);
+                        this.errorMessage
+                            .setText("Incorrect getter")
+                            .setVisible(true);
                     }
                 } else if (itemParts[0] === "bow") {
                     if (inputParts[1] === "getBow()") {
@@ -646,7 +660,7 @@ export default class WeaponDesign extends Phaser.Scene {
                                     'theseus.getBow().setType("poison");'
                                 );
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -657,7 +671,7 @@ export default class WeaponDesign extends Phaser.Scene {
                                     'theseus.getBow().setType("triple");'
                                 );
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -668,11 +682,11 @@ export default class WeaponDesign extends Phaser.Scene {
                                     "theseus.getBow().incDamage();"
                                 );
                             } else if (inputParts[2] === "incDamage") {
-                                error
+                                this.errorMessage
                                     .setText("Missing parenthesis")
                                     .setVisible(true);
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
@@ -683,32 +697,38 @@ export default class WeaponDesign extends Phaser.Scene {
                                     "theseus.getBow().incSpeed();"
                                 );
                             } else if (inputParts[2] === "incSpeed") {
-                                error
+                                this.errorMessage
                                     .setText("Missing parenthesis")
                                     .setVisible(true);
                             } else {
-                                error
+                                this.errorMessage
                                     .setText("Incorrect method")
                                     .setVisible(true);
                             }
                         }
                     } else if (inputParts[1] === "getBow") {
-                        error.setText("Missing parenthesis").setVisible(true);
+                        this.errorMessage
+                            .setText("Missing parenthesis")
+                            .setVisible(true);
                     } else if (inputParts[1] === "getSword()") {
-                        error.setText("Incorrect Weapon").setVisible(true);
+                        this.errorMessage
+                            .setText("Incorrect Weapon")
+                            .setVisible(true);
                     } else if (inputParts[1] === "bow") {
-                        error
+                        this.errorMessage
                             .setText("bow is private attribute")
                             .setVisible(true);
                     } else {
-                        error.setText("Incorrect getter").setVisible(true);
+                        this.errorMessage
+                            .setText("Incorrect getter")
+                            .setVisible(true);
                     }
                 }
                 if (inputParts[0] !== "") {
-                    error.setText("Missing dot").setVisible(true);
+                    this.errorMessage.setText("Missing dot").setVisible(true);
                 }
                 this.inputField.addEventListener("input", () => {
-                    error.setVisible(false);
+                    this.errorMessage.setVisible(false);
                 });
 
                 if (isCorrect) {
@@ -718,12 +738,14 @@ export default class WeaponDesign extends Phaser.Scene {
                     this.codeList.remove(this.holdingItem);
                     this.upgradeList.push(this.holdingItem.texture.key);
                     this.holdingItem.destroy();
+                    this.holdingItem = undefined;
                     completeText.setY(
                         this.cameras.main.height * 0.25 +
                             20 * this.updateCodeList.length
                     );
                     completeText.setVisible(true);
                     this.updateCodeList.push(completeText.text);
+                    this.usedCodes.add(completeText);
                     this.events.emit("weapon-updated", this.upgradeList);
                 }
             }
