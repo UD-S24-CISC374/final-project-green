@@ -45,7 +45,7 @@ export const CONFIG = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
+            debug: false,
         },
     },
     input: {
