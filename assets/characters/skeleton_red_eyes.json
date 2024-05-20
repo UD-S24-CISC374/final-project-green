@@ -1,0 +1,231 @@
+{
+    "frames": {
+        "skeleton_red_eyes_01.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 20,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 5,
+                "w": 20,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_07.png": {
+            "frame": {
+                "x": 0,
+                "y": 26,
+                "w": 20,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 5,
+                "w": 20,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_03.png": {
+            "frame": {
+                "x": 0,
+                "y": 52,
+                "w": 16,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 3,
+                "y": 6,
+                "w": 16,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_05.png": {
+            "frame": {
+                "x": 0,
+                "y": 78,
+                "w": 16,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 3,
+                "y": 6,
+                "w": 16,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_04.png": {
+            "frame": {
+                "x": 0,
+                "y": 104,
+                "w": 15,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 4,
+                "y": 5,
+                "w": 15,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_00.png": {
+            "frame": {
+                "x": 0,
+                "y": 130,
+                "w": 14,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 5,
+                "y": 6,
+                "w": 14,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_02.png": {
+            "frame": {
+                "x": 0,
+                "y": 156,
+                "w": 14,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 5,
+                "y": 6,
+                "w": 14,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_06.png": {
+            "frame": {
+                "x": 0,
+                "y": 182,
+                "w": 14,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 5,
+                "y": 6,
+                "w": 14,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "skeleton_red_eyes_08.png": {
+            "frame": {
+                "x": 0,
+                "y": 208,
+                "w": 14,
+                "h": 26
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 5,
+                "y": 6,
+                "w": 14,
+                "h": 26
+            },
+            "sourceSize": {
+                "w": 24,
+                "h": 32
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    },
+    "meta": {
+        "app": "http://free-tex-packer.com",
+        "version": "0.6.7",
+        "image": "skeleton_red_eyes.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 20,
+            "h": 234
+        },
+        "scale": 1
+    }
+}

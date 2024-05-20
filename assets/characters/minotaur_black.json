@@ -1,0 +1,303 @@
+{
+  "frames": {
+    "minotaur_black_10.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 54,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 48,
+        "y": 0,
+        "w": 54,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "w": 55,
+        "h": 84
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 41,
+        "y": 12,
+        "w": 55,
+        "h": 84
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_03.png": {
+      "frame": {
+        "x": 54,
+        "y": 0,
+        "w": 55,
+        "h": 83
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 41,
+        "y": 13,
+        "w": 55,
+        "h": 83
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_05.png": {
+      "frame": {
+        "x": 0,
+        "y": 180,
+        "w": 55,
+        "h": 83
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 41,
+        "y": 13,
+        "w": 55,
+        "h": 83
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_09.png": {
+      "frame": {
+        "x": 0,
+        "y": 263,
+        "w": 53,
+        "h": 83
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 48,
+        "y": 13,
+        "w": 53,
+        "h": 83
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_11.png": {
+      "frame": {
+        "x": 0,
+        "y": 346,
+        "w": 53,
+        "h": 83
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 48,
+        "y": 13,
+        "w": 53,
+        "h": 83
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_01.png": {
+      "frame": {
+        "x": 0,
+        "y": 429,
+        "w": 67,
+        "h": 82
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 37,
+        "y": 14,
+        "w": 67,
+        "h": 82
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_07.png": {
+      "frame": {
+        "x": 53,
+        "y": 263,
+        "w": 67,
+        "h": 82
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 38,
+        "y": 14,
+        "w": 67,
+        "h": 82
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_00.png": {
+      "frame": {
+        "x": 53,
+        "y": 345,
+        "w": 67,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 38,
+        "y": 15,
+        "w": 67,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_02.png": {
+      "frame": {
+        "x": 55,
+        "y": 83,
+        "w": 67,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 37,
+        "y": 15,
+        "w": 67,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_06.png": {
+      "frame": {
+        "x": 120,
+        "y": 0,
+        "w": 66,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 39,
+        "y": 15,
+        "w": 66,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "minotaur_black_08.png": {
+      "frame": {
+        "x": 55,
+        "y": 164,
+        "w": 66,
+        "h": 81
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 37,
+        "y": 15,
+        "w": 66,
+        "h": 81
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 96
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "minotaur_black.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 186,
+      "h": 511
+    },
+    "scale": 1
+  }
+}
